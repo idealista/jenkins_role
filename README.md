@@ -1,4 +1,4 @@
-![Logo]((https://raw.githubusercontent.com/idealista/jenkins-role/master/logo.gif))
+![Logo](https://raw.githubusercontent.com/idealista/jenkins-role/master/logo.gif)
 
 [![Build Status](https://travis-ci.org/idealista/jenkins-role.png)](https://travis-ci.org/idealista/jenkins-role)
 
