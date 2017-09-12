@@ -1,0 +1,9 @@
+---
+java_implementation: openjdk
+
+jenkins_slaves:
+  - name: slave1
+    hostname: jenkins-slave.vm
+    description: first slave
+    executors: 2
+    label: slave1

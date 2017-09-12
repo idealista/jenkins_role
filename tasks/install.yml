@@ -1,0 +1,119 @@
+---
+- name: Jenkins | Installing dependencies
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_items: "{{ required_libs }}"
+  tags:
+    skip_ansible_lint
+
+- name: Jenkins | Create group jenkins
+  group:
+    name: "{{ jenkins_group }}"
+    state: present
+
+- name: Jenkins | Create user jenkins
+  user:
+    name: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    createhome: yes
+    home: "{{ jenkins_home_path }}"
+    shell: "/bin/bash"
+    generate_ssh_key: yes
+
+- name: Jenkins | Add Jenkins apt repository key
+  apt_key:
+    url: "{{ jenkins_repo_key_url }}"
+    state: present
+
+- name: Jenkins | Add Jenkins apt repository
+  apt_repository:
+    repo: "{{ jenkins_repo_url }}"
+    state: present
+    update_cache: yes
+
+- name: Jenkins | Ensure Jenkins is installed
+  apt:
+    pkg: jenkins={{ jenkins_version }}
+    update_cache: yes
+    state: present
+  register: jenkins_check
+  notify: restart jenkins
+
+# We stop the service because we should NOT edit any config file with the
+# service started. The conditional is for idempotence purposes
+- name: Jenkins | Ensure Jenkins is stopped and is enabled on startup
+  systemd:
+    name: jenkins
+    state: stopped
+    enabled: "{{ jenkins_service_enabled }}"
+  when: jenkins_check.changed == true
+  tags:
+    skip_ansible_lint
+
+- name: Jenkins | Copy jenkins init file
+  template:
+    src: "jenkins.j2"
+    dest: "{{ jenkins_init_file }}"
+  register: jenkins_init
+  when: jenkins_check.changed == true
+  notify: restart jenkins
+  tags:
+    skip_ansible_lint
+
+- name: Jenkins | Copy jenkins config file
+  template:
+    src: "config.xml.j2"
+    dest: "{{ jenkins_config_file }}"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+  register: jenkins_config
+  when: jenkins_check.changed == true
+  notify: restart jenkins
+  tags:
+    skip_ansible_lint
+
+- name: Jenkins | Create Jenkins init credentials folder
+  file:
+    path: "{{ jenkins_init_scripts_path }}"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    mode: 0755
+    state: directory
+  register: jenkins_init_folder_create
+
+- name: Jenkins | Configure default users
+  template:
+    src: CreateInitialCredentials.groovy.j2
+    dest: "{{ jenkins_init_scripts_path }}/CreateInitialCredentials.groovy"
+  when: jenkins_check.changed == true
+  tags:
+    skip_ansible_lint
+
+- name: Jenkins | Force handlers
+  meta: flush_handlers
+
+- name: Jenkins | Wait for Jenkins to fully startup before continue
+  uri:
+    url: "{{ jenkins_url }}"
+    status_code: 200,403
+  retries: "{{ jenkins_check_restart_num_retries }}"
+  delay: "{{ jenkins_check_restart_delay }}"
+  register: result
+  until: result.status in [200,403]
+  changed_when: false
+
+- name: Jenkins | Wait for admin user to be created
+  uri:
+    url: "{{ jenkins_url }}/user/{{ jenkins_admin_username }}/"
+    status_code: 200
+  retries: "{{ jenkins_check_restart_num_retries }}"
+  delay: "{{ jenkins_check_restart_delay }}"
+  register: result
+  until: result.status == 200
+  changed_when: false
+
+- name: Jenkins | Remove Jenkins init credentials script after first startup
+  file:
+    path: "{{ jenkins_init_scripts_path}}/CreateInitialCredentials.groovy"
+    state: absent

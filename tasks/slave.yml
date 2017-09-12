@@ -1,0 +1,101 @@
+---
+
+- name: Jenkins | Create group jenkins
+  group:
+    name: "{{ jenkins_group }}"
+    state: present
+  delegate_to: "{{ item.hostname }}"
+  with_items: "{{ jenkins_slaves }}"
+
+- name: Jenkins | Create user jenkins
+  user:
+    name: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    createhome: yes
+    home: "{{ jenkins_home_path }}"
+    shell: "/bin/bash"
+    generate_ssh_key: yes
+  delegate_to: "{{ item.hostname }}"
+  with_items: "{{ jenkins_slaves }}"
+
+- name: Jenkins | Register ssh pub key from master
+  command: cat {{ jenkins_home_path }}/.ssh/id_rsa.pub
+  register: jenkins_master_key
+  changed_when: false
+
+- name: Jenkins | Authorize key from master
+  authorized_key:
+    user: "{{ jenkins_user }}"
+    key: "{{ jenkins_master_key.stdout }}"
+  delegate_to: "{{ item.hostname }}"
+  with_items: "{{ jenkins_slaves }}"
+
+- name: Jenkins | Wait for Jenkins to fully startup before continue
+  uri:
+    url: "{{ jenkins_url_client }}"
+    status_code: 200,403
+  retries: "{{ jenkins_check_restart_num_retries }}"
+  delay: "{{ jenkins_check_restart_delay }}"
+  changed_when: false
+  failed_when: no
+
+- name: Jenkins | Determining ssh_config
+  set_fact:
+    ssh_config: >
+      Host *
+        StrictHostKeyChecking no
+
+- name: Jenkins | Edit SSH config file for Jenkins user
+  copy:
+    mode: 0640
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+    dest: "{{ jenkins_home_path }}/.ssh/config"
+    content: "{{ ssh_config }}"
+
+- name: Jenkins | Registering create ssh users
+  uri:
+    url: "{{ jenkins_url }}/scriptText"
+    method: POST
+    body: "{{ {'script': lookup('file', 'SSHCredentials.groovy') } | urlencode }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    headers: "{{ crumb | default({}) }}"
+    force_basic_auth: yes
+
+- name: Jenkins | Registering slaves in Jenkins master instance
+  uri:
+    url: "{{ jenkins_url }}/scriptText"
+    method: POST
+    body: "{{ {'script': lookup('template', 'RegisterSlave.groovy.j2') } | urlencode }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    headers: "{{ crumb | default({}) }}"
+    force_basic_auth: yes
+  with_items:
+    - "{{ jenkins_slaves }}"
+
+- name: Jenkins | Authorize key from master
+  known_hosts:
+    path: "{{ jenkins_home_path }}/.ssh/known_hosts"
+    name: "{{ item.hostname }}"
+    key: "{{ lookup('pipe', 'ssh-keyscan -t rsa ' + item.hostname ) }}"
+    state: present
+  with_items:
+    - "{{ jenkins_slaves }}"
+
+- name: Jenkins | Update known_hosts Permissions
+  file:
+    path: "{{ jenkins_home_path }}/.ssh/known_hosts"
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_group }}"
+
+- name: Jenkins | Configure slave master access
+  uri:
+    url: "{{ jenkins_url }}/scriptText"
+    method: POST
+    body: "{{ {'script': lookup('file', 'SlaveMasterAccess.groovy') } | urlencode }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    headers: "{{ crumb | default({}) }}"
+    force_basic_auth: yes

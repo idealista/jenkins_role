@@ -1,0 +1,51 @@
+---
+## General
+
+jenkins_version: "2.60.3"
+
+## Service options
+
+# Owner
+jenkins_user: jenkins
+jenkins_group: jenkins
+
+# start on boot
+jenkins_service_enabled: yes
+jenkins_service_state: started #(started, stopped)
+
+
+jenkins_admin_username: admin
+jenkins_admin_password: admin
+jenkins_crumb_enabled: "true"
+
+# HOST & PORT
+jenkins_host: "{{ ansible_nodename }}"
+jenkins_port: 8080
+jenkins_executors: 2
+
+# Official JAVA_ARGS extracted from:
+# https://wiki.jenkins-ci.org/display/JENKINS/Features+controlled+by+system+properties
+jenkins_java_awt_headless: "true"
+jenkins_java_xms: "256m"
+jenkins_java_xmx: "256m"
+jenkins_java_net_prefer_ipv4_stack: "true"
+jenkins_install_run_setup_wizard: "false"
+jenkins_diy_chunking: "false" #https://issues.jenkins-ci.org/browse/JENKINS-23232
+
+jenkins_java_args:
+  - "-Djava.awt.headless={{ jenkins_java_awt_headless }}"
+  - "-Xms{{ jenkins_java_xms }}"
+  - "-Xmx{{ jenkins_java_xmx }}"
+  - "-Djava.net.preferIPv4Stack={{ jenkins_java_net_prefer_ipv4_stack }}"
+  - "-Djenkins.install.runSetupWizard={{ jenkins_install_run_setup_wizard }}"
+  - "-Dhudson.diyChunking={{ jenkins_diy_chunking }}"
+
+# Other plugins could be found in:
+# https://plugins.jenkins.io/
+jenkins_plugins:
+  - ssh-slaves
+  - ssh-credentials
+  - credentials
+
+jenkins_script_files_path: "{{ playbook_dir }}/files/jenkins/installation"
+jenkins_script_templates_path: "{{ playbook_dir }}/templates/jenkins/installation"
