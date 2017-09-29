@@ -44,6 +44,13 @@ jenkins_plugins:
   - ssh-credentials
   - credentials
 
+## GROOVY SCRIPTS
 jenkins_script_files_path: "{{ playbook_dir }}/files/jenkins/installation"
 jenkins_script_templates_path: "{{ playbook_dir }}/templates/jenkins/installation"
 jenkins_configuration_script_files_path: "{{ playbook_dir }}/files/jenkins/configuration"
+
+# If we are using configuration Groovy scripts,
+# this variable has to be a list of dictionaries, like the following example:
+configuration_script_variables:
+    # GroovyInstallations:
+    #   groovyVersions: ['2.4.12', '2.4.9', '2.4.8']
