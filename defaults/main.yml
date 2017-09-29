@@ -46,4 +46,4 @@ jenkins_plugins:
 
 jenkins_script_files_path: "{{ playbook_dir }}/files/jenkins/installation"
 jenkins_script_templates_path: "{{ playbook_dir }}/templates/jenkins/installation"
-jenkins_configuration_script_files_path: "{{ playbook_dir }}/files/jenkins/installation"
+jenkins_configuration_script_files_path: "{{ playbook_dir }}/files/jenkins/configuration"
