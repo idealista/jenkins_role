@@ -2,9 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a changelog](https://github.com/olivierlacan/keep-a-changelog).
 
-## [Unreleased](https://github.com/idealista/kafka-role/tree/develop)
+## [Unreleased](https://github.com/idealista/jenkins-role/tree/develop)
 ### Changed
-- *Now plugins are installed using `jenkins_plugin` module* @jnogol
+- *Now scripts are executed via `jenkins_script` module* @jnogol
 
 ### Added
 - *Added contribution guide by @jmonterrubio* @jnogol
