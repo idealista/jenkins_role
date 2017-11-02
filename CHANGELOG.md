@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 ## [Unreleased](https://github.com/idealista/jenkins-role/tree/develop)
 ### Changed
 - *Now scripts are executed via `jenkins_script` module* @jnogol
+- *Plugins are installed via `jenkins_plugin` module* @jnogol
 
 ### Added
 - *Added contribution guide by @jmonterrubio* @jnogol
