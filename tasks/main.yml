@@ -4,26 +4,6 @@
 - include: install.yml
   tags: install
 
-- name: Jenkins | Get Jenkins crumb
-  uri:
-    url: "{{ jenkins_url }}/crumbIssuer/api/json"
-    user: "{{ jenkins_admin_username }}"
-    password: "{{ jenkins_admin_password }}"
-    force_basic_auth: yes
-    status_code: 200
-    return_content: yes
-  register: crumb_token
-  until: result.status == 200
-  retries: "{{ jenkins_check_restart_num_retries }}"
-  delay: "{{ jenkins_check_restart_delay }}"
-  changed_when: false
-  failed_when: false
-
-- name: Jenkins | Set crumb token
-  set_fact:
-    crumb: "{{ crumb | default({}) | combine( {crumb_token.json.crumbRequestField: crumb_token.json.crumb}) }}"
-  when: crumb_token.json is defined
-
 # Update and install plugins
 - include: plugins.yml
   tags: plugins

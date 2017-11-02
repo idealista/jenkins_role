@@ -1,10 +1,8 @@
 ---
 ## General
-
-jenkins_version: "2.60.3"
+jenkins_version: "2.73.2"
 
 ## Service options
-
 # Owner
 jenkins_user: jenkins
 jenkins_group: jenkins
@@ -12,7 +10,6 @@ jenkins_group: jenkins
 # start on boot
 jenkins_service_enabled: yes
 jenkins_service_state: started #(started, stopped)
-
 
 jenkins_admin_username: admin
 jenkins_admin_password: admin
@@ -47,5 +44,13 @@ jenkins_plugins:
   - ssh-credentials
   - credentials
 
+## GROOVY SCRIPTS
 jenkins_script_files_path: "{{ playbook_dir }}/files/jenkins/installation"
 jenkins_script_templates_path: "{{ playbook_dir }}/templates/jenkins/installation"
+jenkins_configuration_script_files_path: "{{ playbook_dir }}/files/jenkins/configuration"
+
+# If we are using configuration Groovy scripts,
+# this variable has to be a list of dictionaries, like the following example:
+configuration_script_variables:
+    # GroovyInstallations:
+    #   groovyVersions: ['2.4.12', '2.4.9', '2.4.8']
