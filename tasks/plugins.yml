@@ -1,8 +1,4 @@
 ---
-
-## TODO: Use jenkins_plugin ansible module
-# Not until username and password can be setted
-
 - name: Jenkins | Get the jenkins-cli jarfile from the Jenkins server
   get_url:
     url: "{{ jenkins_url }}/jnlpJars/jenkins-cli.jar"
@@ -15,41 +11,14 @@
   delay: 10
   check_mode: no
 
-# Jenkins doesn't allow updates via CLI, though that is required before plugins
-# can be installed via CLI. See: https://gist.github.com/rowan-m/1026918
-- name: Jenkins | Create Jenkins updates folder
-  file:
-    path: "{{ jenkins_plugins_updates_path }}"
-    owner: "{{ jenkins_user }}"
-    group: "{{ jenkins_group }}"
-    mode: 0755
-    state: directory
-  register: jenkins_plugins_folder_create
-
-- name: Jenkins | Update Jenkins plugin data
-  shell: curl -L {{ jenkins_plugins_update_url }} | sed '1d;$d' > "{{ jenkins_plugins_updates_path }}/default.json"
-  args:
-    creates: "{{ jenkins_plugins_updates_path }}/default.json"
-  tags:
-    skip_ansible_lint
-
-- name: Jenkins | Permissions for default.json updates info
-  file:
-    path: "{{ jenkins_plugins_updates_path }}/default.json"
-    owner: "{{ jenkins_user }}"
-    group: "{{ jenkins_user }}"
-    mode: 0755
-  when: jenkins_plugins_folder_create|changed
-  tags:
-    skip_ansible_lint
-
-- name: Jenkins | Install Jenkins plugins
-  command: >
-    java -jar {{ jenkins_cli_jar_location }} -s {{ jenkins_url }}/
-    install-plugin {{ item }}
-    --username {{ jenkins_admin_username }}
-    --password {{ jenkins_admin_password }}
-    creates="{{ jenkins_home_path }}/plugins/{{ item }}.jpi"
+- name: Jenkins | Install Jenkins Plugins
+  jenkins_plugin:
+    name: "{{ item }}"
+    state: present
+    params:
+      url: "{{ jenkins_url }}"
+      url_username: "{{ jenkins_admin_username }}"
+      url_password: "{{ jenkins_admin_password }}"
   with_items: "{{ jenkins_plugins }}"
   when: jenkins_admin_password != ""
   notify: safe restart jenkins
@@ -68,55 +37,36 @@
   changed_when: false
 
 - name: Jenkins | Configure csrf
-  uri:
-    url: "{{ jenkins_url }}/scriptText"
-    method: POST
-    body: "{{ {'script': lookup('template', 'CSRFConfiguration.groovy.j2') } | urlencode }}"
+  jenkins_script:
+    script: "{{ lookup('template', 'CSRFConfiguration.groovy.j2') }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
-    headers: "{{ crumb | default({}) }}"
-    force_basic_auth: yes
-
-- name: Jenkins | Get Jenkins crumb again
-  uri:
-    url: "{{ jenkins_url }}/crumbIssuer/api/json"
-    user: "{{ jenkins_admin_username }}"
-    password: "{{ jenkins_admin_password }}"
-    force_basic_auth: yes
-    status_code: 200
-    return_content: yes
-  register: crumb_token
-  until: result.status == 200
-  retries: "{{ jenkins_check_restart_num_retries }}"
-  delay: "{{ jenkins_check_restart_delay }}"
-  changed_when: false
-  failed_when: false
-
-- name: Jenkins | Set crumb token again
-  set_fact:
-    crumb: "{{ crumb | default({}) | combine( {crumb_token.json.crumbRequestField: crumb_token.json.crumb}) }}"
-  when: crumb_token.json is defined
+    url: "{{ jenkins_url }}"
 
 - name: Jenkins | Execute installation scripts (1/2)
-  uri:
-    url: "{{ jenkins_url }}/scriptText"
-    method: POST
-    body: "{{ {'script': lookup('file', item) } | urlencode }}"
+  jenkins_script:
+    script: "{{ lookup('file', item) }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
-    headers: "{{ crumb | default({}) }}"
-    force_basic_auth: yes
+    url: "{{ jenkins_url }}"
   with_fileglob:
     - "{{ jenkins_script_files_path }}/*"
 
 - name: Jenkins | Execute installation scripts (2/2)
-  uri:
-    url: "{{ jenkins_url }}/scriptText"
-    method: POST
-    body: "{{ {'script': lookup('template', item) } | urlencode }}"
+  jenkins_script:
+    script: "{{ lookup('template', item) }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
-    headers: "{{ crumb | default({}) }}"
-    force_basic_auth: yes
+    url: "{{ jenkins_url }}"
   with_fileglob:
     - "{{ jenkins_script_templates_path }}/*"
+
+- name: Jenkins | Execute configuration scripts
+  jenkins_script:
+    script: "{{ lookup('file', item) }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+    args: "{{ configuration_script_variables[item | basename | splitext | first] }}"
+  with_fileglob:
+    - "{{ jenkins_configuration_script_files_path }}/*"

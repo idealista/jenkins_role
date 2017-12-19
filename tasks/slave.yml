@@ -54,24 +54,18 @@
     content: "{{ ssh_config }}"
 
 - name: Jenkins | Registering create ssh users
-  uri:
-    url: "{{ jenkins_url }}/scriptText"
-    method: POST
-    body: "{{ {'script': lookup('file', 'SSHCredentials.groovy') } | urlencode }}"
+  jenkins_script:
+    script: "{{ lookup('file', 'SSHCredentials.groovy') }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
-    headers: "{{ crumb | default({}) }}"
-    force_basic_auth: yes
+    url: "{{ jenkins_url }}"
 
 - name: Jenkins | Registering slaves in Jenkins master instance
-  uri:
-    url: "{{ jenkins_url }}/scriptText"
-    method: POST
-    body: "{{ {'script': lookup('template', 'RegisterSlave.groovy.j2') } | urlencode }}"
+  jenkins_script:
+    script: "{{ lookup('template', 'RegisterSlave.groovy.j2') }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
-    headers: "{{ crumb | default({}) }}"
-    force_basic_auth: yes
+    url: "{{ jenkins_url }}"
   with_items:
     - "{{ jenkins_slaves }}"
 
@@ -91,11 +85,8 @@
     group: "{{ jenkins_group }}"
 
 - name: Jenkins | Configure slave master access
-  uri:
-    url: "{{ jenkins_url }}/scriptText"
-    method: POST
-    body: "{{ {'script': lookup('file', 'SlaveMasterAccess.groovy') } | urlencode }}"
+  jenkins_script:
+    script: "{{ lookup('file', 'SlaveMasterAccess.groovy') }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
-    headers: "{{ crumb | default({}) }}"
-    force_basic_auth: yes
+    url: "{{ jenkins_url }}"
