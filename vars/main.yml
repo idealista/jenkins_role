@@ -1,6 +1,6 @@
 ---
 
-required_libs:
+jenkins_required_libs:
   - curl
   - apt-transport-https
   - git

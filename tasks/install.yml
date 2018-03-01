@@ -3,9 +3,7 @@
   apt:
     pkg: "{{ item }}"
     state: present
-  with_items: "{{ required_libs }}"
-  tags:
-    skip_ansible_lint
+  with_items: "{{ jenkins_required_libs }}"
 
 - name: Jenkins | Create group jenkins
   group:
