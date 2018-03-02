@@ -15,10 +15,12 @@
   jenkins_plugin:
     name: "{{ item }}"
     state: present
+    # Starting on Ansible 2.3.3, url_password has to be an argument of the module:
+    # http://docs.ansible.com/ansible/latest/jenkins_plugin_module.html
+    url_password: "{{ jenkins_admin_password }}"
     params:
       url: "{{ jenkins_url }}"
       url_username: "{{ jenkins_admin_username }}"
-    url_password: "{{ jenkins_admin_password }}"
   with_items: "{{ jenkins_plugins }}"
   when: jenkins_admin_password != ""
   notify: safe restart jenkins
