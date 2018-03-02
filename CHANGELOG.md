@@ -4,11 +4,20 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 
 ## [Unreleased](https://github.com/idealista/jenkins-role/tree/develop)
 
+## [1.2.0](https://github.com/idealista/jenkins-role/tree/1.2.0)
+## [Full Changelog](https://github.com/idealista/jenkins-role/compare/1.1.0...1.2.0)
+### Changed
+- *[#11](https://github.com/idealista/jenkins-role/issues/11) Conditional execution of slave.yml* @jnogol
+
+### Fixed
+- *[#4](https://github.com/idealista/jenkins-role/issues/4) Travis test working* @jnogol
+- *[#10](https://github.com/idealista/jenkins-role/issues/10) Jenkins_plugin with Ansible 2.4.x* @jnogol
+
 ## [1.1.0](https://github.com/idealista/jenkins-role/tree/1.1.0)
 ## [Full Changelog](https://github.com/idealista/jenkins-role/compare/1.0.0...1.1.0)
 ### Changed
-- *Now scripts are executed via `jenkins_script` module* @jnogol
-- *Plugins are installed via `jenkins_plugin` module* @jnogol
+- *[#2](https://github.com/idealista/jenkins-role/issues/2) Now scripts are executed via `jenkins_script` module* @jnogol
+- *[#5](https://github.com/idealista/jenkins-role/issues/5) Plugins are installed via `jenkins_plugin` module* @jnogol
 
 ### Added
 - *Added contribution guide by @jmonterrubio* @jnogol

@@ -1,10 +1,10 @@
 ---
 
-- hosts: jenkins-master.vm
+- hosts: master
   roles:
-    - role: java
-    - role: jenkins-role
+    - java
+    - jenkins-role
 
-- hosts: jenkins-slave.vm
+- hosts: slave
   roles:
-    - role: java
+    - java
