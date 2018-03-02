@@ -16,8 +16,9 @@ molecule:
     - .vagrant
     - .molecule
 
-  # directory to look for testinfra tests
-  testinfra_dir: tests
+  # directory to look for goss tests
+  goss_dir: tests/goss
+  goss_playbook: verifier.yml
 
   # directory containing group_vars to use with ansible
   group_vars: ../tests/group_vars
@@ -39,7 +40,7 @@ vagrant:
   # molecule's --platform option will look for these names
   platforms:
     - name: Debian
-      box: debian/jessie64
+      box: debian/stretch64
 
   providers:
     - name: virtualbox
@@ -51,7 +52,8 @@ vagrant:
   instances:
     - name: jenkins-master.vm
       ansible_groups:
-        - test01
+        - jenkins_vagrant
+        - master
       interfaces:
         - network_name: private_network
           type: dhcp
@@ -59,7 +61,8 @@ vagrant:
 
     - name: jenkins-slave.vm
       ansible_groups:
-        - test01
+        - jenkins_vagrant
+        - slave
       interfaces:
         - network_name: private_network
           type: dhcp
@@ -67,28 +70,14 @@ vagrant:
 
 docker:
   containers:
-    - name: jenkins-slave.vm
-      hostname: jenkins-slave.vm
+    - name: jenkins-master
       ansible_groups:
-        - test01
-      dockerfile: tests/Dockerfile
-      image: debian9-ansible
+        - jenkins_docker
+        - master
+      image: idealista/java-debian-ansible
       image_version: latest
-      # All these parameters are needed for Docker testing with systemd
-      privileged: True
-      cap_add:
-        - SYS_ADMIN
-      volume_mounts:
-        - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
-      command: '/lib/systemd/systemd'
-
-    - name: jenkins-master.vm
-      hostname: jenkins-master.vm
-      ansible_groups:
-        - test01
-      dockerfile: tests/Dockerfile
-      image: debian9-ansible
-      image_version: latest
+      port_bindings:
+        8080: 8080
       # All these parameters are needed for Docker testing with systemd
       privileged: True
       cap_add:
@@ -98,7 +87,4 @@ docker:
       command: '/lib/systemd/systemd'
 
 verifier:
-  name: testinfra
-  options:
-    connection: ansible
-    ansible-inventory: .molecule/ansible_inventory
+  name: goss

@@ -11,3 +11,4 @@
 # Jenkins slave tasks
 - include: slave.yml
   tags: slave
+  when: jenkins_slaves is defined

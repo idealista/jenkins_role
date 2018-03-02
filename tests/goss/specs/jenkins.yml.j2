@@ -1,0 +1,22 @@
+http:
+  http://localhost:{{ jenkins_port }}/:
+    status: 200
+
+port:
+  tcp:{{ jenkins_port }}:
+    listening: true
+
+group:
+  {{ jenkins_group }}:
+    exists: true
+
+user:
+  {{ jenkins_user }}:
+    exists: true
+    groups:
+      - {{ jenkins_group }}
+
+service:
+  jenkins:
+    enabled: true
+    running: true
