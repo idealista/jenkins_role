@@ -1,6 +1,7 @@
 ---
 
 jenkins_required_libs:
+  - openssh-client
   - curl
   - apt-transport-https
   - git

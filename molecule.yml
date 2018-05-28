@@ -74,14 +74,25 @@ vagrant:
 
 docker:
   containers:
-    - name: jenkins-master
+    - name: jenkins-slave.vm
       ansible_groups:
-        - jenkins_docker
+        - jenkins_vagrant
+        - slave
+      image: idealista/java-debian-ansible
+      image_version: latest
+      # All these parameters are needed for Docker testing with systemd
+      privileged: True
+      cap_add:
+        - SYS_ADMIN
+      volume_mounts:
+        - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+      command: '/lib/systemd/systemd'
+    - name: jenkins-master.vm
+      ansible_groups:
+        - jenkins_vagrant
         - master
       image: idealista/java-debian-ansible
       image_version: latest
-      port_bindings:
-        8080: 8080
       # All these parameters are needed for Docker testing with systemd
       privileged: True
       cap_add:
