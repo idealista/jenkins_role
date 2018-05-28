@@ -1,4 +1,3 @@
-
 ---
 molecule:
   # directory in CWD to place all temp files, etc.
@@ -34,8 +33,12 @@ ansible:
 # configuration options for the internal call to vagrant
 vagrant:
   raw_config_args:
-    - "landrush.enabled = true"
-    - "landrush.tld = 'vm'"
+    - "hostmanager.enabled = true"
+    # Enable for debug purpose
+    - "hostmanager.manage_host = true"
+    - "hostmanager.manage_guest = true"
+    - "hostmanager.ignore_private_ip = false"
+    - "hostmanager.include_offline = true"
 
   # molecule's --platform option will look for these names
   platforms:
@@ -50,22 +53,23 @@ vagrant:
         cpus: 2
 
   instances:
-    - name: jenkins-master.vm
-      ansible_groups:
-        - jenkins_vagrant
-        - master
-      interfaces:
-        - network_name: private_network
-          type: dhcp
-          auto_config: true
-
     - name: jenkins-slave.vm
       ansible_groups:
         - jenkins_vagrant
         - slave
       interfaces:
         - network_name: private_network
-          type: dhcp
+          type: static
+          ip: 172.28.128.61
+          auto_config: true
+    - name: jenkins-master.vm
+      ansible_groups:
+        - jenkins_vagrant
+        - master
+      interfaces:
+        - network_name: private_network
+          type: static
+          ip: 172.28.128.60
           auto_config: true
 
 docker:

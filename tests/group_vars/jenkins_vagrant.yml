@@ -1,5 +1,9 @@
 ---
+# JAVA
 java_implementation: openjdk
+java_open_jdk_version: 8
+java_open_jdk_set_version: 8
+java_open_jdk_home: /usr/lib/jvm/default-java
 
 jenkins_slaves:
   - name: slave1
@@ -7,3 +11,16 @@ jenkins_slaves:
     description: first slave
     executors: 2
     label: slave1
+    credentials: jenkins
+    home: "{{ jenkins_home_path }}"
+
+jenkins_settings_java:
+  - implementation: openjdk
+    versions:
+      - name: 8
+        home: "{{ java_open_jdk_home }}"
+
+jenkins_settings_groovy:
+  - version: '2.2.1'
+
+jenkins_use_jobdsl: true

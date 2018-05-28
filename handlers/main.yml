@@ -7,9 +7,8 @@
   when: jenkins_service_state != 'stopped'
 
 - name: safe restart jenkins
-  command: >
-    java -jar {{ jenkins_cli_jar_location }} -s {{ jenkins_url }}/
-    safe-restart
-    --username {{ jenkins_admin_username }}
-    --password {{ jenkins_admin_password }}
-  when: jenkins_admin_password != ""
+  jenkins_script:
+    script: "{{ lookup('file', 'security/SafeRestart.groovy') }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"

@@ -1,0 +1,23 @@
+
+---
+
+- name: Jenkins | Generate crumb
+  uri:
+    url: "{{ jenkins_url }}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    force_basic_auth: yes
+    return_content: yes
+  register: crumb
+
+- name: Jenkins | Running {{ item }}
+  uri:
+    url: "{{ jenkins_url }}/{{ item }}"
+    method: POST
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    force_basic_auth: yes
+    status_code: 302
+    headers:
+      Jenkins-Crumb: "{{ crumb.content.split(':')[1] }}"
+  when: item in ['quietDown', 'cancelQuietDown']

@@ -1,14 +1,40 @@
 ---
 
 # Install jenkins and set some minimal config
-- include: install.yml
-  tags: install
+- import_tasks: install.yml
+  tags: jenkins_install
+
+# Update jenkins security
+- import_tasks: security.yml
+  tags: jenkins_security
+
+
+- include_tasks: script/quiet.yml
+  with_items: quietDown
+  tags:
+    - jenkins_plugins
+    - jenkins_settings
 
 # Update and install plugins
-- include: plugins.yml
-  tags: plugins
+- import_tasks: plugins.yml
+  tags: jenkins_plugins
+
+# Update jenkins settings
+- import_tasks: settings.yml
+  tags: jenkins_settings
+
+- include_tasks: script/quiet.yml
+  with_items: cancelQuietDown
+  tags:
+    - jenkins_plugins
+    - jenkins_settings
 
 # Jenkins slave tasks
-- include: slave.yml
-  tags: slave
+- import_tasks: slave.yml
+  tags: jenkins_slave
   when: jenkins_slaves is defined
+
+# Jenkins job dsl
+- import_tasks: seed_job.yml
+  tags: jenkins_seed
+  when: jenkins_use_jobdsl

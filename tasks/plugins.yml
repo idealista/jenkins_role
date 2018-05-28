@@ -1,28 +1,15 @@
 ---
-- name: Jenkins | Get the jenkins-cli jarfile from the Jenkins server
-  get_url:
-    url: "{{ jenkins_url }}/jnlpJars/jenkins-cli.jar"
-    dest: "{{ jenkins_cli_jar_location }}"
-    owner: "{{ jenkins_user }}"
-    group: "{{ jenkins_group }}"
-  register: jarfile_get
-  until: "'OK' in jarfile_get.msg or 'file already exists' in jarfile_get.msg"
-  retries: 5
-  delay: 10
-  check_mode: no
-
-- name: Jenkins | Install Jenkins Plugins
+- name: JENKINS | Install Jenkins plugins
   jenkins_plugin:
-    name: "{{ item }}"
-    state: present
-    # Starting on Ansible 2.3.3, url_password has to be an argument of the module:
-    # http://docs.ansible.com/ansible/latest/jenkins_plugin_module.html
+    name: "{{ item.name }}"
+    version: "{{ item.version }}"
+    jenkins_home: "{{ jenkins_home_path }}"
+    url_username: "{{ jenkins_admin_username }}"
     url_password: "{{ jenkins_admin_password }}"
-    params:
-      url: "{{ jenkins_url }}"
-      url_username: "{{ jenkins_admin_username }}"
-  with_items: "{{ jenkins_plugins }}"
-  when: jenkins_admin_password != ""
+    url: "{{ jenkins_url }}"
+  with_items:
+    - "{{ jenkins_default_plugins }}"
+    - "{{ jenkins_plugins }}"
   notify: safe restart jenkins
 
 - name: Jenkins | Force handlers
@@ -37,38 +24,3 @@
   register: result
   until: result.status == 200
   changed_when: false
-
-- name: Jenkins | Configure csrf
-  jenkins_script:
-    script: "{{ lookup('template', 'CSRFConfiguration.groovy.j2') }}"
-    user: "{{ jenkins_admin_username }}"
-    password: "{{ jenkins_admin_password }}"
-    url: "{{ jenkins_url }}"
-
-- name: Jenkins | Execute installation scripts (1/2)
-  jenkins_script:
-    script: "{{ lookup('file', item) }}"
-    user: "{{ jenkins_admin_username }}"
-    password: "{{ jenkins_admin_password }}"
-    url: "{{ jenkins_url }}"
-  with_fileglob:
-    - "{{ jenkins_script_files_path }}/*"
-
-- name: Jenkins | Execute installation scripts (2/2)
-  jenkins_script:
-    script: "{{ lookup('template', item) }}"
-    user: "{{ jenkins_admin_username }}"
-    password: "{{ jenkins_admin_password }}"
-    url: "{{ jenkins_url }}"
-  with_fileglob:
-    - "{{ jenkins_script_templates_path }}/*"
-
-- name: Jenkins | Execute configuration scripts
-  jenkins_script:
-    script: "{{ lookup('file', item) }}"
-    user: "{{ jenkins_admin_username }}"
-    password: "{{ jenkins_admin_password }}"
-    url: "{{ jenkins_url }}"
-    args: "{{ configuration_script_variables[item | basename | splitext | first] }}"
-  with_fileglob:
-    - "{{ jenkins_configuration_script_files_path }}/*"

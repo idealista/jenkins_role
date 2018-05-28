@@ -1,6 +1,6 @@
 ---
 ## General
-jenkins_version: "2.89.4"
+jenkins_version: "2.107.3"
 
 ## Service options
 # Owner
@@ -37,20 +37,59 @@ jenkins_java_args:
   - "-Djenkins.install.runSetupWizard={{ jenkins_install_run_setup_wizard }}"
   - "-Dhudson.diyChunking={{ jenkins_diy_chunking }}"
 
+jenkins_credentials:
+  - id: jenkins
+    cred: "{{ jenkins_home_path }}/.ssh/id_rsa"
+    username: jenkins
+    password: ''
+    description: jenkins master certificate
+
+jenkins_slaves: []
+  # - name: slave1
+  #   hostname: jenkins-slave.vm
+  #   description: first slave
+  #   executors: 2
+  #   label: slave1
+  #   credentials: jenkins
+  #   home: "{{ jenkins_home_path }}"
+
 # Other plugins could be found in:
 # https://plugins.jenkins.io/
-jenkins_plugins:
-  - ssh-slaves
-  - ssh-credentials
-  - credentials
+jenkins_plugins: []
 
 ## GROOVY SCRIPTS
 jenkins_script_files_path: "{{ playbook_dir }}/files/jenkins/installation"
 jenkins_script_templates_path: "{{ playbook_dir }}/templates/jenkins/installation"
 jenkins_configuration_script_files_path: "{{ playbook_dir }}/files/jenkins/configuration"
 
-# If we are using configuration Groovy scripts,
-# this variable has to be a list of dictionaries, like the following example:
-configuration_script_variables:
-    # GroovyInstallations:
-    #   groovyVersions: ['2.4.12', '2.4.9', '2.4.8']
+## SETTINGS
+jenkins_settings_java: []
+  #- implementation: oraclejdk
+  #  versions: [ 'jdk-6u45-oth-JPR', 'jdk-7u80-oth-JPR', 'jdk-8u162-oth-JPR' ]
+  #  user: 'janoguera@idealista.com'
+  #  password: '1Oraculodecuenta'
+  # - implementation: openjdk
+  #   versions:
+  #     - name: openjdk8
+  #     - home: /usr/lib/jvm/default-java
+
+jenkins_ldap_enabled: false
+# jenkins_ldap_parameters:
+#   server:
+#   rootDN:
+#   userSearchBase:
+#   userSearch:
+#   groupSearchBase:
+#   managerDN:
+#   managerPassword:
+#   inhibitInferRootDN:
+
+jenkins_settings_groovy: []
+#  - version: '2.2.1'
+
+## JOB DSL
+jenkins_use_jobdsl: false
+jenkins_seed_job_name: seed_job
+jenkins_seed_job_files_path: "{{ playbook_dir }}/files/seedJob/"
+jenkins_seed_job_templates_path: "{{ playbook_dir }}/templates/seedJob/"
+jenkins_seed_job_java_tag: java8-openjdk

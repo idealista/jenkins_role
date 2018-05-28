@@ -4,6 +4,10 @@ jenkins_required_libs:
   - curl
   - apt-transport-https
   - git
+  - build-essential
+  - python-httplib2
+  - python-jenkins
+  - python-lxml
 
 # Files & Paths
 jenkins_conf_path: /etc/default
@@ -12,7 +16,6 @@ jenkins_init_file: "{{ jenkins_conf_path }}/jenkins"
 jenkins_config_file: "{{ jenkins_home_path }}/config.xml"
 jenkins_plugins_updates_path: "{{ jenkins_home_path }}/updates"
 jenkins_init_scripts_path: "{{ jenkins_home_path }}/init.groovy.d"
-jenkins_cli_jar_location: "{{ jenkins_home_path }}/jenkins-cli.jar"
 
 # Package
 jenkins_repo_base_url: "https://pkg.jenkins.io/debian-stable"
@@ -23,6 +26,20 @@ jenkins_repo_url: "deb {{ jenkins_repo_base_url }}/ binary/"
 jenkins_url: "http://{{ jenkins_host }}:{{ jenkins_port }}"
 jenkins_url_client: "{{ jenkins_url }}/cli"
 jenkins_plugins_update_url: https://updates.jenkins.io/update-center.json
+
+# Plugins
+jenkins_default_plugins: []
+  # - { name: "ssh-credentials", version: "1.13"}
+  # - { name: "ssh-slaves", version: "1.26"}
+  # - { name: "credentials", version: "2.1.16"}
+  # - { name: "plain-credentials", version: "1.4"}
+  # - { name: "structs", version: "1.14"}
+  # - { name: "job-dsl", version: "1.69"}
+  # - { name: "script-security", version: "1.44"}
+  # - { name: "ldap", version: "1.20"}
+  # - { name: "groovy", version: "2.0"}
+  # - { name: "mailer", version: "1.21"}
+  # - { name: "display-url-api", version: "2.2.0"}
 
 # Misc
 jenkins_use_security: 'false'
