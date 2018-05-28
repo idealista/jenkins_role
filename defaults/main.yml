@@ -53,14 +53,20 @@ jenkins_slaves: []
   #   credentials: jenkins
   #   home: "{{ jenkins_home_path }}"
 
+jenkins_ldap_enabled: false
+# jenkins_ldap_parameters:
+#   server:
+#   rootDN:
+#   userSearchBase:
+#   userSearch:
+#   groupSearchBase:
+#   managerDN:
+#   managerPassword:
+#   inhibitInferRootDN:
+
 # Other plugins could be found in:
 # https://plugins.jenkins.io/
 jenkins_plugins: []
-
-## GROOVY SCRIPTS
-jenkins_script_files_path: "{{ playbook_dir }}/files/jenkins/installation"
-jenkins_script_templates_path: "{{ playbook_dir }}/templates/jenkins/installation"
-jenkins_configuration_script_files_path: "{{ playbook_dir }}/files/jenkins/configuration"
 
 ## SETTINGS
 jenkins_settings_java: []
@@ -73,19 +79,19 @@ jenkins_settings_java: []
   #     - name: openjdk8
   #     - home: /usr/lib/jvm/default-java
 
-jenkins_ldap_enabled: false
-# jenkins_ldap_parameters:
-#   server:
-#   rootDN:
-#   userSearchBase:
-#   userSearch:
-#   groupSearchBase:
-#   managerDN:
-#   managerPassword:
-#   inhibitInferRootDN:
-
 jenkins_settings_groovy: []
 #  - version: '2.2.1'
+
+jenkins_settings_maven: []
+#  - version: '3.3.9'
+
+## GROOVY SCRIPTS
+jenkins_script_files_path: "{{ playbook_dir }}/files/jenkins/settings"
+jenkins_script_templates_path: "{{ playbook_dir }}/templates/jenkins/settings"
+#jenkins_configuration_script_files_path: "{{ playbook_dir }}/files/jenkins/configuration"
+
+# Use to include in the script templates
+jenkins_script_parameters: []
 
 ## JOB DSL
 jenkins_use_jobdsl: false

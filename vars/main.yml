@@ -28,18 +28,18 @@ jenkins_url_client: "{{ jenkins_url }}/cli"
 jenkins_plugins_update_url: https://updates.jenkins.io/update-center.json
 
 # Plugins
-jenkins_default_plugins: []
-  # - { name: "ssh-credentials", version: "1.13"}
-  # - { name: "ssh-slaves", version: "1.26"}
-  # - { name: "credentials", version: "2.1.16"}
-  # - { name: "plain-credentials", version: "1.4"}
-  # - { name: "structs", version: "1.14"}
-  # - { name: "job-dsl", version: "1.69"}
-  # - { name: "script-security", version: "1.44"}
-  # - { name: "ldap", version: "1.20"}
-  # - { name: "groovy", version: "2.0"}
-  # - { name: "mailer", version: "1.21"}
-  # - { name: "display-url-api", version: "2.2.0"}
+jenkins_default_plugins:
+  - { name: "ssh-credentials", version: "1.13"}
+  - { name: "ssh-slaves", version: "1.26"}
+  - { name: "credentials", version: "2.1.16"}
+  - { name: "plain-credentials", version: "1.4"}
+  - { name: "structs", version: "1.14"}
+  - { name: "job-dsl", version: "1.69"}
+  - { name: "script-security", version: "1.44"}
+  - { name: "ldap", version: "1.20"}
+  - { name: "groovy", version: "2.0"}
+  - { name: "mailer", version: "1.21"}
+  - { name: "display-url-api", version: "2.2.0"}
 
 # Misc
 jenkins_use_security: 'false'

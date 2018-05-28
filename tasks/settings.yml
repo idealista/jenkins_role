@@ -28,6 +28,17 @@
   with_items:
     - "{{ jenkins_settings_groovy }}"
 
+- name: Jenkins | Configure Maven versions
+  jenkins_script:
+    script: "{{ lookup('file', 'settings/Maven.groovy') }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+    args:
+      version: "{{ item.version }}"
+  with_items:
+    - "{{ jenkins_settings_maven }}"
+
 - name: Jenkins | Configure LDAP
   jenkins_script:
     script: "{{ lookup('file', 'settings/LDAP.groovy') }}"
@@ -45,41 +56,20 @@
       inhibitInferRootDN: "{{ jenkins_ldap_parameters.inhibitInferRootDN }}"
   when: jenkins_ldap_enabled
 
+- name: Jenkins | Execute setting scripts (1/2)
+  jenkins_script:
+    script: "{{ lookup('file', item) }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+  with_fileglob:
+    - "{{ jenkins_script_files_path }}/*"
 
-# - name: Jenkins | Execute installation scripts (1/2)
-#   jenkins_script:
-#     script: "{{ lookup('file', item) }}"
-#     user: "{{ jenkins_admin_username }}"
-#     password: "{{ jenkins_admin_password }}"
-#     url: "{{ jenkins_url }}"
-#   with_fileglob:
-#     - "{{ jenkins_script_files_path }}/*"
-#
-# - name: Jenkins | Execute installation scripts (2/2)
-#   jenkins_script:
-#     script: "{{ lookup('template', item) }}"
-#     user: "{{ jenkins_admin_username }}"
-#     password: "{{ jenkins_admin_password }}"
-#     url: "{{ jenkins_url }}"
-#   with_fileglob:
-#     - "{{ jenkins_script_templates_path }}/*"
-#
-# - name: Jenkins | Execute configuration scripts
-#   jenkins_script:
-#     script: "{{ lookup('file', item) }}"
-#     user: "{{ jenkins_admin_username }}"
-#     password: "{{ jenkins_admin_password }}"
-#     url: "{{ jenkins_url }}"
-#     args: "{{ configuration_script_variables[item | basename | splitext | first] }}"
-#   with_fileglob:
-#     - "{{ jenkins_configuration_script_files_path }}/*"
-#
-#
-# - name: Run tools scripts files
-#   jenkins_script:
-#     script: "{{ lookup('file', item.src) }}"
-#     user: "{{ jenkins_admin_user }}"
-#     password: "{{ jenkins_admin_password }}"
-#     url: "http://localhost:{{ jenkins_http_port }}"
-#   with_filetree:
-#     - "settings/"
+- name: Jenkins | Execute settings scripts (2/2)
+  jenkins_script:
+    script: "{{ lookup('template', item, template_vars=jenkins_script_parameters[item | basename | splitext | first]|default({})) }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+  with_fileglob:
+    - "{{ jenkins_script_templates_path }}/*"
