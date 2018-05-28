@@ -95,6 +95,9 @@
     path: "{{ jenkins_home_path }}/.ssh/known_hosts"
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
+  when:
+    - jenkins_slaves is defined
+    - jenkins_slaves | length > 0
 
 - name: Jenkins | Configure slave master access
   jenkins_script:

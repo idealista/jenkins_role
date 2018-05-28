@@ -5,14 +5,16 @@ java_open_jdk_version: 8
 java_open_jdk_set_version: 8
 java_open_jdk_home: /usr/lib/jvm/default-java
 
-jenkins_slaves:
-  - name: slave1
-    hostname: jenkins-slave.vm
-    description: first slave
-    executors: 2
-    label: slave1
-    credentials: jenkins
-    home: "{{ jenkins_home_path }}"
+# Cannot test jenkins_slaves in docker:
+# https://github.com/ansible/ansible/issues/23727
+# jenkins_slaves:
+#   - name: slave1
+#     hostname: jenkins-slave.vm
+#     description: first slave
+#     executors: 2
+#     label: slave1
+#     credentials: jenkins
+#     home: "{{ jenkins_home_path }}"
 
 jenkins_settings_java:
   - implementation: openjdk

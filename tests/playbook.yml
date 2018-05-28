@@ -10,6 +10,13 @@
         cache_valid_time: 600
       with_items:
         - openssh-client
+        - openssh-server
+    - name: Jenkins Slave | PRE_TASKS | Configuring service
+      systemd:
+        name: ssh
+        state: restarted
+      changed_when: false
+
   roles:
     - java
 
