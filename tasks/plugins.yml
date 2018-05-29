@@ -1,5 +1,5 @@
 ---
-- name: JENKINS | Install Jenkins plugins
+- name: Jenkins | Install Jenkins plugins
   jenkins_plugin:
     name: "{{ item.name }}"
     version: "{{ item.version }}"

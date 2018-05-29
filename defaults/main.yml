@@ -70,10 +70,16 @@ jenkins_plugins: []
 
 ## SETTINGS
 jenkins_settings_java: []
-  #- implementation: oraclejdk
-  #  versions: [ 'jdk-6u45-oth-JPR', 'jdk-7u80-oth-JPR', 'jdk-8u162-oth-JPR' ]
-  #  user: 'janoguera@idealista.com'
-  #  password: '1Oraculodecuenta'
+  # - implementation: oraclejdk
+  #   versions:
+  #     - name: 6
+  #       installer: jdk-6u45-oth-JPR
+  #     - name: 7
+  #       installer: jdk-7u80-oth-JPR
+  #     - name: 8
+  #       installer: jdk-8u162-oth-JPR
+  #   user: 'user'
+  #   password: 'pass'
   # - implementation: openjdk
   #   versions:
   #     - name: openjdk8
