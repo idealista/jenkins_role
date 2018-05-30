@@ -10,14 +10,6 @@ jenkins_required_libs:
   - python-jenkins
   - python-lxml
 
-# Files & Paths
-jenkins_conf_path: /etc/default
-jenkins_home_path: /var/lib/jenkins
-jenkins_init_file: "{{ jenkins_conf_path }}/jenkins"
-jenkins_config_file: "{{ jenkins_home_path }}/config.xml"
-jenkins_plugins_updates_path: "{{ jenkins_home_path }}/updates"
-jenkins_init_scripts_path: "{{ jenkins_home_path }}/init.groovy.d"
-
 # Package
 jenkins_repo_base_url: "https://pkg.jenkins.io/debian-stable"
 jenkins_repo_key_url: "{{ jenkins_repo_base_url }}/jenkins.io.key"
@@ -41,8 +33,3 @@ jenkins_default_plugins:
   - { name: "groovy", version: "2.0"}
   - { name: "mailer", version: "1.21"}
   - { name: "display-url-api", version: "2.2.0"}
-
-# Misc
-jenkins_use_security: 'false'
-jenkins_check_restart_num_retries: 10
-jenkins_check_restart_delay: 5
