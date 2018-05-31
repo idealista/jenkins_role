@@ -21,6 +21,8 @@ import java.util.logging.Logger
 
 Logger logger = Logger.getLogger('jenkins.instance.configAgent')
 
+Jenkins.instance.setSlaveAgentPort(0) // Random
+
 Set<String> agentProtocolsList = ['JNLP4-connect', 'Ping']
 if(!Jenkins.instance.getAgentProtocols().equals(agentProtocolsList)) {
     Jenkins.instance.setAgentProtocols(agentProtocolsList)
