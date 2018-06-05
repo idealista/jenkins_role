@@ -1,9 +1,65 @@
 ---
+# JAVA
 java_implementation: openjdk
+java_open_jdk_version: 8
+java_open_jdk_set_version: 8
+java_open_jdk_home: /usr/lib/jvm/default-java
 
-jenkins_slaves:
-  - name: slave1
-    hostname: jenkins-slave.vm
-    description: first slave
-    executors: 2
-    label: slave1
+# Cannot test jenkins_slaves in docker:
+# https://github.com/ansible/ansible/issues/23727
+# jenkins_slaves:
+#   - name: slave1
+#     hostname: jenkins-slave.vm
+#     description: first slave
+#     executors: 2
+#     label: slave1
+#     credentials: jenkins
+#     home: "{{ jenkins_home_path }}"
+
+jenkins_settings_java:
+  - implementation: openjdk
+    versions:
+      - name: 8
+        home: "{{ java_open_jdk_home }}"
+
+jenkins_settings_groovy:
+  - version: '2.2.1'
+
+jenkins_settings_maven:
+ - version: '3.3.9'
+
+jenkins_plugins:
+  - { name: "nodejs", version: "1.2.6"}
+  - { name: "config-file-provider", version: "2.18"}
+  - { name: "token-macro", version: "2.5"}
+  - { name: "workflow-step-api", version: "2.15"}
+  - { name: "bouncycastle-api", version: "2.16.2"}
+  - { name: "command-launcher", version: "1.2"}
+  - { name: "msbuild", version: "1.29"}
+
+jenkins_script_parameters:
+  NodeJS:
+    versions:
+      - grunt:
+        name: 'grunt'
+        version: '9.11.1'
+        pkgs: 'grunt-cli'
+        refresh: 72
+      - bower:
+        name: 'bower'
+        version: '0.10.24'
+        pkgs: 'bower'
+        refresh: 72
+  MSBuild:
+    versions:
+      - errorsOnly:
+        name: MSBuild 15.0 ErrorsOnly
+        path: C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\\Bin\\MSBuild.exe
+        params: /clp:ErrorsOnly /p:Configuration=Release /p:DebugSymbols=false
+      - deploy:
+        name: MSBuild 15.0 ErrorsOnly and Deploy
+        path: C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\BuildTools\\MSBuild\\15.0\\Bin\\MSBuild.exe
+        params: /clp:ErrorsOnly  /T:Build,Package /p:Configuration=Release /p:DebugSymbols=false
+
+
+jenkins_use_jobdsl: true

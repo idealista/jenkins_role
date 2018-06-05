@@ -1,5 +1,5 @@
 - name: Testing prerequisites
-  hosts: all
+  hosts: jenkins-master.vm
   gather_facts: yes
 
   vars:

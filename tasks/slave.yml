@@ -32,18 +32,12 @@
 
 - name: Jenkins | Wait for Jenkins to fully startup before continue
   uri:
-    url: "{{ jenkins_url_client }}"
+    url: "{{ jenkins_url }}"
     status_code: 200,403
   retries: "{{ jenkins_check_restart_num_retries }}"
   delay: "{{ jenkins_check_restart_delay }}"
   changed_when: false
   failed_when: no
-
-- name: Jenkins | Determining ssh_config
-  set_fact:
-    ssh_config: >
-      Host *
-        StrictHostKeyChecking no
 
 - name: Jenkins | Edit SSH config file for Jenkins user
   copy:
@@ -51,25 +45,43 @@
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
     dest: "{{ jenkins_home_path }}/.ssh/config"
-    content: "{{ ssh_config }}"
+    content: >
+      Host *
+        StrictHostKeyChecking no
 
 - name: Jenkins | Registering create ssh users
   jenkins_script:
-    script: "{{ lookup('file', 'SSHCredentials.groovy') }}"
+    script: "{{ lookup('file', 'security/Credentials.groovy') }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
     url: "{{ jenkins_url }}"
+    args:
+      id: "{{ item.id }}"
+      username: "{{ item.username | default('') }}"
+      password: "{{ item.password | default('') }}"
+      description: "{{ item.description }}"
+      cred: "{{ item.cred | default('') }}"
+      text: "{{ item.text | default('') }}"
+  with_items: "{{ jenkins_credentials }}"
 
 - name: Jenkins | Registering slaves in Jenkins master instance
   jenkins_script:
-    script: "{{ lookup('template', 'RegisterSlave.groovy.j2') }}"
+    script: "{{ lookup('file', 'slaves/RegisterSlave.groovy') }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
     url: "{{ jenkins_url }}"
+    args:
+      name: "{{ item.name }}"
+      description: "{{ item.description }}"
+      home: "{{ item.home }}"
+      executors: "{{ item.executors }}"
+      label: "{{ item.label }}"
+      hostname: "{{ item.hostname }}"
+      credentials: "{{ item.credentials }}"
   with_items:
     - "{{ jenkins_slaves }}"
 
-- name: Jenkins | Authorize key from master
+- name: Jenkins | Known hosts slaves
   known_hosts:
     path: "{{ jenkins_home_path }}/.ssh/known_hosts"
     name: "{{ item.hostname }}"
@@ -83,10 +95,13 @@
     path: "{{ jenkins_home_path }}/.ssh/known_hosts"
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
+  when:
+    - jenkins_slaves is defined
+    - jenkins_slaves | length > 0
 
 - name: Jenkins | Configure slave master access
   jenkins_script:
-    script: "{{ lookup('file', 'SlaveMasterAccess.groovy') }}"
+    script: "{{ lookup('file', 'slaves/SlaveMasterAccess.groovy') }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
     url: "{{ jenkins_url }}"
