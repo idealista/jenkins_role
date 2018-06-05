@@ -32,7 +32,7 @@
 
 - name: Jenkins | Wait for Jenkins to fully startup before continue
   uri:
-    url: "{{ jenkins_url_client }}"
+    url: "{{ jenkins_url }}"
     status_code: 200,403
   retries: "{{ jenkins_check_restart_num_retries }}"
   delay: "{{ jenkins_check_restart_delay }}"

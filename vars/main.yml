@@ -17,7 +17,6 @@ jenkins_repo_url: "deb {{ jenkins_repo_base_url }}/ binary/"
 
 # URLs
 jenkins_url: "http://{{ jenkins_host }}:{{ jenkins_port }}"
-jenkins_url_client: "{{ jenkins_url }}/cli"
 jenkins_plugins_update_url: https://updates.jenkins.io/update-center.json
 
 # Plugins
@@ -33,3 +32,4 @@ jenkins_default_plugins:
   - { name: "groovy", version: "2.0"}
   - { name: "mailer", version: "1.21"}
   - { name: "display-url-api", version: "2.2.0"}
+  - { name: "naginator", version: "1.17.2"}

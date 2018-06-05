@@ -21,6 +21,7 @@
     <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.69">
       <targets>dsl*.groovy</targets>
       <usingScriptText>false</usingScriptText>
+      <sandbox>false</sandbox>
       <ignoreExisting>false</ignoreExisting>
       <ignoreMissingFiles>false</ignoreMissingFiles>
       <failOnMissingPlugin>false</failOnMissingPlugin>

@@ -55,6 +55,8 @@ MAXOPENFILES=8192
 # port for HTTP connector (default 8080; disable with -1)
 HTTP_PORT={{ jenkins_port }}
 
+# host for HTTP
+HTTP_HOST={{ jenkins_host }}
 
 # servlet context, important if you want to use apache proxying
 PREFIX=/$NAME
@@ -68,4 +70,4 @@ PREFIX=/$NAME
 # --webroot=~/.jenkins/war
 # --prefix=$PREFIX
 
-JENKINS_ARGS="--webroot=/var/cache/$NAME/war --httpPort=$HTTP_PORT --httpKeepAliveTimeout=15000"
+JENKINS_ARGS="--webroot=/var/cache/$NAME/war --httpPort=$HTTP_PORT --httpKeepAliveTimeout=15000 httpListenAddress=$HTTP_HOST"
