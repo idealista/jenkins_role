@@ -1,10 +1,26 @@
 ---
 
+- hosts: slave
+  pre_tasks:
+    - name: Jenkins Slave | PRE_TASKS | Install required libs
+      apt:
+        pkg: "{{ item }}"
+        state: installed
+        update_cache: true
+        cache_valid_time: 600
+      with_items:
+        - openssh-client
+        - openssh-server
+    - name: Jenkins Slave | PRE_TASKS | Configuring service
+      systemd:
+        name: ssh
+        state: restarted
+      changed_when: false
+
+  roles:
+    - java
+
 - hosts: master
   roles:
     - java
     - jenkins-role
-
-- hosts: slave
-  roles:
-    - java

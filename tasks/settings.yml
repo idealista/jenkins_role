@@ -1,0 +1,75 @@
+---
+
+- name: Jenkins | Configure Java versions
+  jenkins_script:
+    script: "{{ lookup('file', 'settings/Java.groovy') }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+    args:
+      version: "{{ item.1.name }}"
+      install: "{{ item.1.installer | default('') }}"
+      home: "{{ item.1.home | default('') }}"
+      implementation: "{{ item.0.implementation }}"
+      user: "{{ item.0.user | default('') }}"
+      password: "{{ item.0.password | default('') }}"
+  with_subelements:
+    - "{{ jenkins_settings_java }}"
+    - versions
+
+- name: Jenkins | Configure Groovy versions
+  jenkins_script:
+    script: "{{ lookup('file', 'settings/Groovy.groovy') }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+    args:
+      version: "{{ item.version }}"
+  with_items:
+    - "{{ jenkins_settings_groovy }}"
+
+- name: Jenkins | Configure Maven versions
+  jenkins_script:
+    script: "{{ lookup('file', 'settings/Maven.groovy') }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+    args:
+      version: "{{ item.version }}"
+  with_items:
+    - "{{ jenkins_settings_maven }}"
+
+- name: Jenkins | Configure LDAP
+  jenkins_script:
+    script: "{{ lookup('file', 'settings/LDAP.groovy') }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+    args:
+      server: "{{ jenkins_ldap_parameters.server }}"
+      rootDN: "{{ jenkins_ldap_parameters.rootDN }}"
+      userSearchBase: "{{ jenkins_ldap_parameters.userSearchBase }}"
+      userSearch: "{{ jenkins_ldap_parameters.userSearch }}"
+      groupSearchBase: "{{ jenkins_ldap_parameters.groupSearchBase }}"
+      managerDN: "{{ jenkins_ldap_parameters.managerDN }}"
+      managerPassword: "{{ jenkins_ldap_parameters.managerPassword }}"
+      inhibitInferRootDN: "{{ jenkins_ldap_parameters.inhibitInferRootDN }}"
+  when: jenkins_ldap_enabled
+
+- name: Jenkins | Execute setting scripts (1/2)
+  jenkins_script:
+    script: "{{ lookup('file', item) }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+  with_fileglob:
+    - "{{ jenkins_script_files_path }}/*"
+
+- name: Jenkins | Execute settings scripts (2/2)
+  jenkins_script:
+    script: "{{ lookup('template', item, template_vars=jenkins_script_parameters[item | basename | splitext | first]|default({})) }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+  with_fileglob:
+    - "{{ jenkins_script_templates_path }}/*"

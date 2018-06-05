@@ -23,16 +23,25 @@ These instructions will get you a copy of the role for your Ansible Playbook. On
 
 ### Prerequisities
 
-Ansible 2.4.0.0 version installed.
+Ansible 2.4.3.0 version installed.
 Inventory destination should be a Debian environment.
 
-For testing purposes, [Molecule](https://molecule.readthedocs.io/) with [Vagrant](https://www.vagrantup.com/) as driver (with [landrush](https://github.com/vagrant-landrush/landrush) plugin) and [VirtualBox](https://www.virtualbox.org/) as provider.
+For testing purposes, [Molecule](https://molecule.readthedocs.io/) with [Vagrant](https://www.vagrantup.com/) as driver (with [hostmanager](https://github.com/devopsgroup-io/vagrant-hostmanager) plugin) and [VirtualBox](https://www.virtualbox.org/) as provider.
 
 ### Installing
 
-Create or add to your roles dependency file (e.g requirements.yml):
+Create or add to your roles dependency file (e.g requirements.yml) from GitHub:
 
-``` yml
+```
+- src: http://github.com/idealista/jenkins-role.git
+  scm: git
+  version: 1.0.0
+  name: jenkins
+```
+
+or using [Ansible Galaxy](https://galaxy.ansible.com/idealista/jenkins-role/) as origin if you prefer:
+
+```
 - src: idealista.jenkins-role
   version: 1.0.0
   name: jenkins
@@ -46,16 +55,16 @@ ansible-galaxy install -p roles -r requirements.yml -f
 
 Use in a playbook:
 
-``` yml
+```
 ---
 - hosts: someserver
   roles:
-    - { role: jenkins }
+    - jenkins
 ```
 
 ## Usage
 
-Look to the defaults properties file (`defaults/main.yml`) to see the possible configuration properties.
+Look to the [defaults](defaults/main.yml) properties file to see the possible configuration properties.
 
 ## Testing
 
@@ -63,7 +72,7 @@ Execute ``` molecule test ``` under jenkins-role folder to run the automated tes
 
 ## Built With
 
-![Ansible](https://img.shields.io/badge/ansible-2.4.0.0-green.svg)
+![Ansible](https://img.shields.io/badge/ansible-2.4.3.0-green.svg)
 
 ## Versioning
 

@@ -54,7 +54,6 @@
     src: "jenkins.j2"
     dest: "{{ jenkins_init_file }}"
   register: jenkins_init
-  when: jenkins_check.changed == true
   notify: restart jenkins
   tags:
     skip_ansible_lint
@@ -110,6 +109,9 @@
   register: result
   until: result.status == 200
   changed_when: false
+  when: jenkins_check.changed == true
+  tags:
+    skip_ansible_lint
 
 - name: Jenkins | Remove Jenkins init credentials script after first startup
   file:

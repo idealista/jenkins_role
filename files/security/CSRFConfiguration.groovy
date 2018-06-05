@@ -3,7 +3,7 @@ import hudson.security.csrf.DefaultCrumbIssuer
 
 def instance = Jenkins.getInstance()
 def crumb = null
-if ({{ jenkins_crumb_enabled }}) {
+if (${crumb_enabled}) {
     crumb = new DefaultCrumbIssuer(true)
 }
 instance.setCrumbIssuer(crumb)
