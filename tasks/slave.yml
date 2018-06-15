@@ -56,13 +56,14 @@
     password: "{{ jenkins_admin_password }}"
     url: "{{ jenkins_url }}"
     args:
+      security_enabled: "{{ jenkins_use_security }}"
       id: "{{ item.id }}"
       username: "{{ item.username | default('') }}"
       password: "{{ item.password | default('') }}"
       description: "{{ item.description }}"
       cred: "{{ item.cred | default('') }}"
       text: "{{ item.text | default('') }}"
-  with_items: "{{ jenkins_credentials }}"
+  with_items: "{{ jenkins_ssh_credentials }}"
 
 - name: Jenkins | Registering slaves in Jenkins master instance
   jenkins_script:

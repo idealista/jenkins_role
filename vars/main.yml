@@ -33,3 +33,10 @@ jenkins_default_plugins:
   - { name: "mailer", version: "1.21"}
   - { name: "display-url-api", version: "2.2.0"}
   - { name: "naginator", version: "1.17.2"}
+
+jenkins_ssh_credentials:
+  - id: jenkins
+    cred: "{{ jenkins_home_path }}/.ssh/id_rsa"
+    username: jenkins
+    password: ''
+    description: jenkins master certificate
