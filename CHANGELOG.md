@@ -4,6 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 
 ## [Unreleased](https://github.com/idealista/jenkins-role/tree/develop)
 
+## [2.0.1](https://github.com/idealista/jenkins-role/tree/2.0.1)
+## [Full Changelog](https://github.com/idealista/jenkins-role/compare/2.0.0...2.0.1)
+### Fixed
+- *Disabled script security by default* @jmonterrubio
+- *[#17](https://github.com/idealista/jenkins-role/issues/17) Fix broken securityRealm if security enabled and no LDAP used* @jmonterrubio
+
 ## [2.0.0](https://github.com/idealista/jenkins-role/tree/2.0.0)
 ## [Full Changelog](https://github.com/idealista/jenkins-role/compare/1.2.0...2.0.0)
 ### Changed

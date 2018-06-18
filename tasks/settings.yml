@@ -1,5 +1,36 @@
 ---
 
+- name: Jenkins | Update admin credentials
+  jenkins_script:
+    script: "{{ lookup('file', 'security/Credentials.groovy') }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+    args:
+      security_enabled: "{{ jenkins_use_security }}"
+      id: jenkins_admin
+      username: "{{ jenkins_admin_username }}"
+      password: "{{ jenkins_admin_password }}"
+      description: jenkins admin login
+      cred: ''
+      text: ''
+
+- name: Jenkins | Create credentials
+  jenkins_script:
+    script: "{{ lookup('file', 'security/Credentials.groovy') }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+    args:
+      security_enabled: "{{ jenkins_use_security }}"
+      id: "{{ item.id }}"
+      username: "{{ item.username | default('') }}"
+      password: "{{ item.password | default('') }}"
+      description: "{{ item.description }}"
+      cred: "{{ item.cred | default('') }}"
+      text: "{{ item.text | default('') }}"
+  with_items: "{{ jenkins_credentials }}"
+
 - name: Jenkins | Configure Java versions
   jenkins_script:
     script: "{{ lookup('file', 'settings/Java.groovy') }}"
@@ -55,6 +86,14 @@
       managerPassword: "{{ jenkins_ldap_parameters.managerPassword }}"
       inhibitInferRootDN: "{{ jenkins_ldap_parameters.inhibitInferRootDN }}"
   when: jenkins_ldap_enabled
+
+- name: Jenkins | Disable script security
+  jenkins_script:
+    script: "{{ lookup('file', 'settings/DisableScriptSecurity.groovy') }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "{{ jenkins_url }}"
+  when: jenkins_disable_script_security
 
 - name: Jenkins | Execute setting scripts (1/2)
   jenkins_script:
