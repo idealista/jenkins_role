@@ -46,12 +46,12 @@ jenkins_java_args:
   - "-Dhudson.diyChunking={{ jenkins_diy_chunking }}"
   - "-Dfile.encoding=UTF-8"
 
-jenkins_credentials:
-  - id: jenkins
-    cred: "{{ jenkins_home_path }}/.ssh/id_rsa"
-    username: jenkins
-    password: ''
-    description: jenkins master certificate
+jenkins_credentials: []
+  #- id: jenkins
+  #  cred: "{{ jenkins_home_path }}/.ssh/id_rsa"
+  #  username: jenkins
+  #  password: ''
+  #  description: jenkins master certificate
 
 jenkins_slaves: []
   # - name: slave1
@@ -119,3 +119,4 @@ jenkins_seed_job_java_tag: java8-openjdk
 jenkins_use_security: "false | {{ jenkins_ldap_enabled }} "
 jenkins_check_restart_num_retries: 10
 jenkins_check_restart_delay: 5
+jenkins_disable_script_security: true

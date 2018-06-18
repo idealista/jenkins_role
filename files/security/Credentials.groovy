@@ -6,6 +6,8 @@ import com.cloudbees.plugins.credentials.CredentialsScope
 import com.cloudbees.plugins.credentials.SystemCredentialsProvider
 import org.jenkinsci.plugins.plaincredentials.impl.StringCredentialsImpl
 import hudson.util.Secret
+import hudson.security.HudsonPrivateSecurityRealm
+import jenkins.model.Jenkins
 
 def ansible = new Domain("ansible", "ansible managed credentials", null)
 SystemCredentialsProvider.getInstance().getStore().addDomain(ansible)
@@ -32,6 +34,13 @@ if ("${cred}" != "") {
         "${description}",
         "${username}",
         "${password}")
+    if ("${security_enabled}" == "true") {
+        def instance = Jenkins.getInstance()
+        def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+        hudsonRealm.createAccount("${username}","${password}")
+        instance.setSecurityRealm(hudsonRealm)
+        instance.save()
+    }
 }
 
 SystemCredentialsProvider.getInstance().getStore().addCredentials(ansible, credential)

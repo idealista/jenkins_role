@@ -4,7 +4,7 @@
   <version>1.0</version>
   <numExecutors>{{ jenkins_executors }}</numExecutors>
   <mode>NORMAL</mode>
-  <useSecurity>{{ jenkins_use_security }}</useSecurity>
+  <useSecurity>false</useSecurity>
   <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy">
     <denyAnonymousReadAccess>true</denyAnonymousReadAccess>
   </authorizationStrategy>
