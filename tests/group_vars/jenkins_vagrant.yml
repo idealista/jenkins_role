@@ -36,6 +36,7 @@ jenkins_plugins:
   - { name: "bouncycastle-api", version: "2.16.2"}
   - { name: "command-launcher", version: "1.2"}
   - { name: "msbuild", version: "1.29"}
+  - { name: "jdk-tool", version: "1.1"}
 
 jenkins_script_parameters:
   NodeJS:
