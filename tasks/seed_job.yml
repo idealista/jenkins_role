@@ -2,7 +2,7 @@
 
 - name: Jenkins | Create seed Job
   jenkins_job:
-    config: "{{ lookup('template', '{{ jenkins_seed_job_config_file_path }}') }}"
+    config: "{{ lookup('template', '{{ jenkins_seed_job_config_file }}') }}"
     name: "{{ jenkins_seed_job_name }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
