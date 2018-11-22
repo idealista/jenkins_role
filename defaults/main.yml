@@ -115,7 +115,7 @@ jenkins_seed_job_name: seed_job
 jenkins_seed_job_files_path: "{{ playbook_dir }}/files/seedJob/"
 jenkins_seed_job_templates_path: "{{ playbook_dir }}/templates/seedJob/"
 jenkins_seed_job_java_tag: java8-openjdk
-jenkins_seed_job_config_file_path: "{{ jenkins_seed_job_templates_path }}/dslJob.xml"
+jenkins_seed_job_config_file_path: "templates/seedJob/dslJob.xml"
 
 # Misc
 jenkins_use_security: "false | {{ jenkins_ldap_enabled }} "
