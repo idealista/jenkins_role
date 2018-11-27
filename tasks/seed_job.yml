@@ -42,7 +42,9 @@
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
   with_filetree: "{{ jenkins_seed_job_templates_path }}"
-  when: item.state == 'file'
+  when: 
+    - item.state == 'file' 
+    - item.path != 'dslJob.xml'
 
 - name: Jenkins | DSL templates loaded
   find:
