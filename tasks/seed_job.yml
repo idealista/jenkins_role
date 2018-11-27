@@ -42,7 +42,7 @@
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
   with_filetree: "{{ jenkins_seed_job_templates_path }}"
-  when: 
+  when:
     - item.state == 'file' 
     - item.path != 'dslJob.xml'
 
