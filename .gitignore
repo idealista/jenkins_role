@@ -3,3 +3,7 @@
 .cache/
 tests/__pycache__/
 tests/playbook.retry
+
+#IDE
+.project
+.classpath
