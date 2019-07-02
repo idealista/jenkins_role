@@ -1,5 +1,5 @@
 http:
-  http://localhost:{{ jenkins_port }}/:
+  http://127.0.0.1:{{ jenkins_port }}:
     status: 200
 
 port:
@@ -20,3 +20,4 @@ service:
   jenkins:
     enabled: true
     running: true
+

@@ -1,0 +1,54 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+lint:
+  name: yamllint
+
+platforms:
+  - name: jenkinsmaster
+    hostname: jenkinsmaster
+    image: debian:stretch-slim
+    privileged: True
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+    groups:
+      - jenkins
+    command: '/lib/systemd/systemd'
+    networks:
+      - name: jenkins
+    inventory:
+      links:
+        group_vars: ./group_vars
+    published_ports:
+      - "8080:8080"
+
+  - name: jenkinsslave
+    hostname: jenkinsslave
+    image: debian:stretch-slim
+    privileged: True
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+    groups:
+      - jenkins
+    command: '/lib/systemd/systemd'
+    networks:
+      - name: jenkins
+
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+
+verifier:
+  name: goss
+  enabled: true
+  lint:
+    name: yamllint
