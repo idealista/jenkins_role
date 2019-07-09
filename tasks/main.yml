@@ -37,4 +37,4 @@
 # Jenkins job dsl
 - import_tasks: seed_job.yml
   tags: jenkins_seed
-  when: jenkins_use_jobdsl
+  when: jenkins_use_jobdsl | bool

@@ -1,6 +1,4 @@
-
 ---
-
 - name: Jenkins | Generate crumb
   uri:
     url: "{{ jenkins_url }}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)"

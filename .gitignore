@@ -7,3 +7,6 @@ tests/playbook.retry
 #IDE
 .project
 .classpath
+.idea
+
+venv

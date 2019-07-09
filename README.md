@@ -1,6 +1,6 @@
-![Logo](https://raw.githubusercontent.com/idealista/jenkins-role/master/logo.gif)
+![Logo](https://raw.githubusercontent.com/idealista/jenkins_role/master/logo.gif)
 
-[![Build Status](https://travis-ci.org/idealista/jenkins-role.png)](https://travis-ci.org/idealista/jenkins-role)
+[![Build Status](https://travis-ci.org/idealista/jenkins_role.png)](https://travis-ci.org/idealista/jenkins_role)
 
 # Jenkins Ansible role
 
@@ -23,26 +23,26 @@ These instructions will get you a copy of the role for your Ansible Playbook. On
 
 ### Prerequisities
 
-Ansible 2.4.3.0 version installed.
+Ansible 2.8.1 version installed.
 Inventory destination should be a Debian environment.
 
-For testing purposes, [Molecule](https://molecule.readthedocs.io/) with [Vagrant](https://www.vagrantup.com/) as driver (with [hostmanager](https://github.com/devopsgroup-io/vagrant-hostmanager) plugin) and [VirtualBox](https://www.virtualbox.org/) as provider.
+For testing purposes, [Molecule](https://molecule.readthedocs.io/) with [Docker](https://www.docker.com/) as driver.
 
 ### Installing
 
 Create or add to your roles dependency file (e.g requirements.yml) from GitHub:
 
 ```
-- src: http://github.com/idealista/jenkins-role.git
+- src: http://github.com/idealista/jenkins_role.git
   scm: git
   version: 1.0.0
   name: jenkins
 ```
 
-or using [Ansible Galaxy](https://galaxy.ansible.com/idealista/jenkins-role/) as origin if you prefer:
+or using [Ansible Galaxy](https://galaxy.ansible.com/idealista/jenkins_role/) as origin if you prefer:
 
 ```
-- src: idealista.jenkins-role
+- src: idealista.jenkins_role
   version: 1.0.0
   name: jenkins
 ```
@@ -68,15 +68,15 @@ Look to the [defaults](defaults/main.yml) properties file to see the possible co
 
 ## Testing
 
-Execute ``` molecule test ``` under jenkins-role folder to run the automated tests suite.
+Execute ``` molecule test ``` under jenkins_role folder to run the automated tests suite.
 
 ## Built With
 
-![Ansible](https://img.shields.io/badge/ansible-2.4.3.0-green.svg)
+![Ansible](https://img.shields.io/badge/ansible-2.8.1-green.svg)
 
 ## Versioning
 
-For the versions available, see the [tags on this repository](https://github.com/idealista/jenkins-role/tags).
+For the versions available, see the [tags on this repository](https://github.com/idealista/jenkins_role/tags).
 
 Additionaly you can see what change in each version in the [CHANGELOG.md](CHANGELOG.md) file.
 
@@ -84,7 +84,7 @@ Additionaly you can see what change in each version in the [CHANGELOG.md](CHANGE
 
 * **Idealista** - *Work with* - [idealista](https://github.com/idealista)
 
-See also the list of [contributors](https://github.com/idealista/jenkins-role/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/idealista/jenkins_role/contributors) who participated in this project.
 
 ## License
 

@@ -82,14 +82,20 @@
   with_items:
     - "{{ jenkins_slaves }}"
 
+- name: Jenkins | Get slaves ssh keys
+  command: "ssh-keyscan -t rsa {{ item.hostname }}"
+  register: jenkins_slaves_ssh_keys
+  loop: "{{ jenkins_slaves }}"
+  when: jenkins_slaves is defined
+
 - name: Jenkins | Known hosts slaves
   known_hosts:
     path: "{{ jenkins_home_path }}/.ssh/known_hosts"
-    name: "{{ item.hostname }}"
-    key: "{{ lookup('pipe', 'ssh-keyscan -t rsa ' + item.hostname ) }}"
+    name: "{{ item.item.hostname }}"
+    key: "{{ item.stdout }}"
     state: present
   with_items:
-    - "{{ jenkins_slaves }}"
+    - "{{ jenkins_slaves_ssh_keys.results }}"
 
 - name: Jenkins | Update known_hosts Permissions
   file:

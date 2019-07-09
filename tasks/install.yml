@@ -1,9 +1,8 @@
 ---
 - name: Jenkins | Installing dependencies
   apt:
-    pkg: "{{ item }}"
+    pkg: "{{ jenkins_required_libs }}"
     state: present
-  with_items: "{{ jenkins_required_libs }}"
 
 - name: Jenkins | Create group jenkins
   group:
@@ -45,7 +44,7 @@
     name: jenkins
     state: stopped
     enabled: "{{ jenkins_service_enabled }}"
-  when: jenkins_check.changed == true
+  when: jenkins_check.changed | bool
   tags:
     skip_ansible_lint
 
@@ -65,7 +64,7 @@
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_group }}"
   register: jenkins_config
-  when: jenkins_check.changed == true
+  when: jenkins_check.changed | bool
   notify: restart jenkins
   tags:
     skip_ansible_lint
@@ -83,7 +82,7 @@
   template:
     src: CreateInitialCredentials.groovy.j2
     dest: "{{ jenkins_init_scripts_path }}/CreateInitialCredentials.groovy"
-  when: jenkins_check.changed == true
+  when: jenkins_check.changed | bool
   tags:
     skip_ansible_lint
 
@@ -109,11 +108,11 @@
   register: result
   until: result.status == 200
   changed_when: false
-  when: jenkins_check.changed == true
+  when: jenkins_check.changed | bool
   tags:
     skip_ansible_lint
 
 - name: Jenkins | Remove Jenkins init credentials script after first startup
   file:
-    path: "{{ jenkins_init_scripts_path}}/CreateInitialCredentials.groovy"
+    path: "{{ jenkins_init_scripts_path }}/CreateInitialCredentials.groovy"
     state: absent
