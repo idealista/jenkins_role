@@ -57,7 +57,8 @@
 
 - name: Jenkins | Set dsl files var
   set_fact:
-    dsl_files: "{{ dsl_files_loaded.files | map(attribute='path') | list | regex_replace(jenkins_seed_job_files_path) | regex_replace(jenkins_seed_job_templates_path) }}"
+    dsl_files:
+      "{{ dsl_files_loaded.files |map(attribute='path') | list | regex_replace(jenkins_seed_job_files_path) | regex_replace(jenkins_seed_job_templates_path) }}"
 
 - name: Jenkins | List all files in path
   find:
@@ -68,7 +69,8 @@
 
 - name: Jenkins | Set dsl files existing
   set_fact:
-    dsl_files_exist: "{{ all_dsl_available.files | map(attribute='path') | list | regex_replace(jenkins_home_path + '/jobs/' + jenkins_seed_job_name + '/workspace/')}}"
+    dsl_files_exist:
+      "{{ all_dsl_available.files | map(attribute='path') | list | regex_replace(jenkins_home_path + '/jobs/' + jenkins_seed_job_name + '/workspace/') }}"
 
 - name: Jenkins | Remove old dsl files
   file:

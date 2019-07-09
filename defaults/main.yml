@@ -9,7 +9,7 @@ jenkins_group: jenkins
 
 # start on boot
 jenkins_service_enabled: yes
-jenkins_service_state: started #(started, stopped)
+jenkins_service_state: started  # (started, stopped)
 
 jenkins_admin_username: admin
 jenkins_admin_password: admin
@@ -35,7 +35,7 @@ jenkins_java_xms: "256m"
 jenkins_java_xmx: "256m"
 jenkins_java_net_prefer_ipv4_stack: "true"
 jenkins_install_run_setup_wizard: "false"
-jenkins_diy_chunking: "false" #https://issues.jenkins-ci.org/browse/JENKINS-23232
+jenkins_diy_chunking: "false"  # https://issues.jenkins-ci.org/browse/JENKINS-23232
 
 jenkins_java_args:
   - "-Djava.awt.headless={{ jenkins_java_awt_headless }}"
@@ -47,20 +47,20 @@ jenkins_java_args:
   - "-Dfile.encoding=UTF-8"
 
 jenkins_credentials: []
-  #- id: jenkins
-  #  cred: "{{ jenkins_home_path }}/.ssh/id_rsa"
-  #  username: jenkins
-  #  password: ''
-  #  description: jenkins master certificate
+# - id: jenkins
+#   cred: "{{ jenkins_home_path }}/.ssh/id_rsa"
+#   username: jenkins
+#   password: ''
+#   description: jenkins master certificate
 
 jenkins_slaves: []
-  # - name: slave1
-  #   hostname: jenkins-slave.vm
-  #   description: first slave
-  #   executors: 2
-  #   label: slave1
-  #   credentials: jenkins
-  #   home: "{{ jenkins_home_path }}"
+# - name: slave1
+#   hostname: jenkins-slave.vm
+#   description: first slave
+#   executors: 2
+#   label: slave1
+#   credentials: jenkins
+#   home: "{{ jenkins_home_path }}"
 
 jenkins_ldap_enabled: false
 # jenkins_ldap_parameters:
@@ -76,24 +76,24 @@ jenkins_ldap_enabled: false
 # Other plugins could be found in:
 # https://plugins.jenkins.io/
 jenkins_plugins:
-  - { name: "jdk-tool", version: "1.1"} # This one is needed since Jenkins v2.112
+  - { name: "jdk-tool", version: "1.1"}  # This one is needed since Jenkins v2.112
 
 ## SETTINGS
 jenkins_settings_java: []
-  # - implementation: oraclejdk
-  #   versions:
-  #     - name: 6
-  #       installer: jdk-6u45-oth-JPR
-  #     - name: 7
-  #       installer: jdk-7u80-oth-JPR
-  #     - name: 8
-  #       installer: jdk-8u162-oth-JPR
-  #   user: 'user'
-  #   password: 'pass'
-  # - implementation: openjdk
-  #   versions:
-  #     - name: openjdk8
-  #     - home: /usr/lib/jvm/default-java
+# - implementation: oraclejdk
+#   versions:
+#     - name: 6
+#       installer: jdk-6u45-oth-JPR
+#     - name: 7
+#       installer: jdk-7u80-oth-JPR
+#     - name: 8
+#       installer: jdk-8u162-oth-JPR
+#   user: 'user'
+#   password: 'pass'
+# - implementation: openjdk
+#   versions:
+#     - name: openjdk8
+#     - home: /usr/lib/jvm/default-java
 
 jenkins_settings_groovy: []
 #  - version: '2.2.1'
@@ -104,7 +104,7 @@ jenkins_settings_maven: []
 ## GROOVY SCRIPTS
 jenkins_script_files_path: "{{ playbook_dir }}/files/jenkins/settings"
 jenkins_script_templates_path: "{{ playbook_dir }}/templates/jenkins/settings"
-#jenkins_configuration_script_files_path: "{{ playbook_dir }}/files/jenkins/configuration"
+# jenkins_configuration_script_files_path: "{{ playbook_dir }}/files/jenkins/configuration"
 
 # Use to include in the script templates
 jenkins_script_parameters: []

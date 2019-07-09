@@ -1,6 +1,5 @@
 ---
-
-- hosts: slave
+- hosts: jenkinsslave
   pre_tasks:
     - name: Jenkins Slave | PRE_TASKS | Install required libs
       apt:
@@ -8,7 +7,7 @@
         state: installed
         update_cache: true
         cache_valid_time: 600
-      with_items:
+      loop:
         - openssh-client
         - openssh-server
     - name: Jenkins Slave | PRE_TASKS | Configuring service
@@ -20,7 +19,8 @@
   roles:
     - java
 
-- hosts: master
+- hosts: jenkinsmaster
   roles:
     - java
-    - jenkins-role
+    - jenkins_role
+
