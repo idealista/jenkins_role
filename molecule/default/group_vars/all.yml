@@ -1,7 +1,7 @@
 ---
 # JAVA
 java_implementation: openjdk
-java_open_jdk_version: 8u212-b03-2~deb9u1
+java_open_jdk_version: 8u252-b09-1~deb9u1
 java_open_jdk_set_version: 8
 
 # Cannot test jenkins_slaves in docker:
