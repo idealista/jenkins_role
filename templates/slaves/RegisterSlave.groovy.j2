@@ -13,7 +13,7 @@ instance.addNode(new DumbSlave(
                 "${executors}",
                 Node.Mode.EXCLUSIVE,
                 "${label}",
-                new SSHLauncher("${hostname}", 22, "${credentials}", "", "", "", "", 0, 3, 5),
+                new SSHLauncher("${hostname}", 22, "${credentials}", "{{ item.vmargs | default('') }}", "{{ item.javaPath | default('') }}", "", "", 0, 3, 5),
                 new RetentionStrategy.Always(),
                 new LinkedList()
                 ))

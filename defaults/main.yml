@@ -61,6 +61,8 @@ jenkins_slaves: []
 #   label: slave1
 #   credentials: jenkins
 #   home: "{{ jenkins_home_path }}"
+#   vmargs: "-Xmx1g"
+#   javaPath: "/path/to/java"
 
 jenkins_ldap_enabled: false
 # jenkins_ldap_parameters:
