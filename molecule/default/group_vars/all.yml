@@ -1,7 +1,7 @@
 ---
 # JAVA
 java_implementation: openjdk
-java_open_jdk_version: 8u212-b03-2~deb9u1
+java_open_jdk_version: 8u252-b09-1~deb9u1
 java_open_jdk_set_version: 8
 
 # Cannot test jenkins_slaves in docker:
@@ -14,6 +14,8 @@ java_open_jdk_set_version: 8
 #     label: slave1
 #     credentials: jenkins
 #     home: "{{ jenkins_home_path }}"
+
+java_open_jdk_home: /usr/lib/jvm/java-8-openjdk-amd64
 
 jenkins_settings_java:
   - implementation: openjdk
