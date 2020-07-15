@@ -16,9 +16,6 @@
         state: restarted
       changed_when: false
 
-  roles:
-    - java
-
 - hosts: jenkinsmaster
   roles:
     - jenkins_role
