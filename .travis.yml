@@ -1,6 +1,6 @@
 ---
 language: python
-python: "3.6"
+python: "3.7"
 
 sudo: required
 
@@ -8,10 +8,11 @@ services:
   - docker
 
 install:
-  - pip install -r requirements-test.txt
+  - pip install pipenv
+  - pipenv sync
 
 script:
-  - molecule test
+  - pipenv run molecule test
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

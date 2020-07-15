@@ -68,7 +68,22 @@ Look to the [defaults](defaults/main.yml) properties file to see the possible co
 
 ## Testing
 
-Execute ``` molecule test ``` under jenkins_role folder to run the automated tests suite.
+### Install dependencies
+
+```sh
+pipenv sync
+pipenv shell
+```
+
+For more information read the [pipenv docs](https://docs.pipenv.org/).
+
+### Running test
+
+```
+molecule test
+```
+
+See molecule/molecule.yml to check possible testing platforms.
 
 ## Built With
 
