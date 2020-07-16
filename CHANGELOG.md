@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a changelog](https://github.com/olivierlacan/keep-a-changelog).
 
 ## [Unreleased](https://github.com/idealista/jenkins_role/tree/develop)
+
+## [2.4.0](https://github.com/idealista/jenkins_role/tree/2.4.0)
+## [Full Changelog](https://github.com/idealista/jenkins_role/compare/2.3.0...2.4.0)
 ### Added
 - *[#40] JVM args in slaves* @sorobon
 
