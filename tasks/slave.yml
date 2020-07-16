@@ -67,7 +67,7 @@
 
 - name: Jenkins | Registering slaves in Jenkins master instance
   jenkins_script:
-    script: "{{ lookup('file', 'slaves/RegisterSlave.groovy') }}"
+    script: "{{ lookup('template', 'templates/slaves/RegisterSlave.groovy') }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
     url: "{{ jenkins_url }}"

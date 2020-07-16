@@ -4,6 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 
 ## [Unreleased](https://github.com/idealista/jenkins_role/tree/develop)
 
+## [2.4.0](https://github.com/idealista/jenkins_role/tree/2.4.0)
+## [Full Changelog](https://github.com/idealista/jenkins_role/compare/2.3.0...2.4.0)
+### Added
+- *[#40] JVM args in slaves* @sorobon
+
 ## [2.3.0](https://github.com/idealista/jenkins_role/tree/2.3.0)
 ## [Full Changelog](https://github.com/idealista/jenkins_role/compare/2.2.0...2.3.0)
 ### Changed
