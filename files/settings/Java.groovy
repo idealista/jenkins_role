@@ -22,7 +22,7 @@ if (javaInstall != null) {
   return
 }
 
-switch(implementation) {
+switch("${implementation}") {
   case "openjdk":
     jdks.push(new JDK(jdkName, "${home}"))
     break;
