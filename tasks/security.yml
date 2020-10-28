@@ -17,4 +17,11 @@
     url: "{{ jenkins_url }}"
   with_items:
     - ConfigureAgent
-
+  
+- name: Jenkins | Configure default users
+  template:
+    src: CreateInitialCredentials.groovy.j2
+    dest: "{{ jenkins_init_scripts_path }}/CreateInitialCredentials.groovy"
+  when: jenkins_check.changed | bool
+  tags:
+    skip_ansible_lint
