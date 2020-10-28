@@ -18,6 +18,7 @@
     headers:
       Jenkins-Crumb: "{{ crumb_seed.content.split(':')[1] }}"
       Cookie: "{{ crumb_seed.cookies_string }}"
+  ignore_errors: true
   register: seed_job_exists
 
 - name: Jenkins | Create seed job
