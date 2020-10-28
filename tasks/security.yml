@@ -9,7 +9,7 @@
     args:
       crumb_enabled: "{{ jenkins_crumb_enabled | default(false) }}"
 
-- name: Jenkins | Configure Agent & CLI
+- name: Jenkins | Configure Agent
   jenkins_script:
     script: "{{ lookup('file', 'security/' + item + '.groovy') }}"
     user: "{{ jenkins_admin_username }}"
@@ -17,4 +17,4 @@
     url: "{{ jenkins_url }}"
   with_items:
     - ConfigureAgent
-    - DisableCli
+
