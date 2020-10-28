@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a changelog](https://github.com/olivierlacan/keep-a-changelog).
 
 ## [Unreleased](https://github.com/idealista/jenkins_role/tree/develop)
+### Added
+- *[#48] Support for jenkins v2.249.2.* @vicsufer
+- *[#48] Add session cookie for API Requests* @vicsufer
+### Changed
+- *[#48] Disable CLI with java argument-* @vicsufer
 
 ## [2.4.0](https://github.com/idealista/jenkins_role/tree/2.4.0)
 ## [Full Changelog](https://github.com/idealista/jenkins_role/compare/2.3.0...2.4.0)
