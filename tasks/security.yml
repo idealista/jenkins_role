@@ -17,7 +17,7 @@
     url: "{{ jenkins_url }}"
   with_items:
     - ConfigureAgent
-  
+
 - name: Jenkins | Configure default users
   template:
     src: CreateInitialCredentials.groovy.j2
