@@ -15,7 +15,6 @@ env:
   jobs:
     DOCKER_BASE_IMAGE=idealista/jdk:8u252-stretch-openjdk-headless
 
-
 script:
   - pipenv run molecule test
 
