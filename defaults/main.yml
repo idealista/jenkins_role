@@ -44,7 +44,7 @@ jenkins_java_args:
   - "-Xmx{{ jenkins_java_xmx }}"
   - "-Djava.net.preferIPv4Stack={{ jenkins_java_net_prefer_ipv4_stack }}"
   - "-Djenkins.install.runSetupWizard={{ jenkins_install_run_setup_wizard }}"
-  - "-Djenkins.CLI.disabled=true"
+  - "-Djenkins.CLI.disabled={{jenkins_disable_cli}}"
   - "-Dhudson.diyChunking={{ jenkins_diy_chunking }}"
   - "-Dfile.encoding=UTF-8"
 
