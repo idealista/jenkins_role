@@ -36,17 +36,6 @@
       Content-Type: "text/xml"
   when: seed_job_exists.status != 200
 
-# - name: Jenkins | Create seed Job
-#   jenkins_job:
-#     config: "{{ lookup('template', '{{ jenkins_seed_job_config_file }}') }}"
-#     name: "{{ jenkins_seed_job_name }}"
-#     user: "{{ jenkins_admin_username }}"
-#     password: "{{ jenkins_admin_password }}"
-#     url: "{{ jenkins_url }}"
-#   headers:
-#       Jenkins-Crumb: "{{ crumb_seed.content.split(':')[1] }}"
-#       Cookie: "{{ crumb_seed.cookies_string }}"
-
 - name: Jenkins | Ensure workspace exists
   file:
     path: "{{ jenkins_home_path }}/jobs/{{ jenkins_seed_job_name }}/workspace"
