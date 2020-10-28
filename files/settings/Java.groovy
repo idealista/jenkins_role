@@ -22,11 +22,20 @@ if (javaInstall != null) {
   return
 }
 
-if ("${implementation}" == "openjdk") {
-  jdks.push(new JDK(jdkName, "${home}"))
-} else if ("${implementation}" == "oraclejdk") {
-  def installer = new JDKInstaller("${install}", true)
-  def installerProps = new InstallSourceProperty([installer])
-  jdks.push(new JDK(jdkName, null, [installerProps]))
-  jdkInstallerDescriptor.doPostCredential("${user}", "${password}")
+switch("${implementation}") {
+  case "openjdk":
+    jdks.push(new JDK(jdkName, "${home}"))
+    break;
+  case "oraclejdk":
+    def installer = new JDKInstaller("${install}", true)
+    def installerProps = new InstallSourceProperty([installer])
+    jdks.push(new JDK(jdkName, null, [installerProps]))
+    jdkInstallerDescriptor.doPostCredential("${user}", "${password}")
+    break;
+  case "adoptopenjdk":
+    jdks.push(new JDK(jdkName, "${home}"))
+    break;
+  default:
+    logger.log(Level.WARNING, implementation + " is not a supported jdk implementation")
+    break;
 }
