@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 - *[#48] Support for jenkins v2.249.2.* @vicsufer
 - *[#48] Add session cookie for API Requests* @vicsufer
 ### Changed
-- *[#48] Disable CLI with java argument-* @vicsufer
+- *[#48] Disable CLI with java argument instead of remote script call* @vicsufer
 
 
 ## [2.5.0](https://github.com/idealista/jenkins_role/tree/2.5.0)
