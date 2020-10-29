@@ -1,6 +1,6 @@
 ---
 ## General
-jenkins_version: "2.138.1"
+jenkins_version: "2.249.2"
 
 ## Service options
 # Owner
@@ -36,6 +36,7 @@ jenkins_java_xmx: "256m"
 jenkins_java_net_prefer_ipv4_stack: "true"
 jenkins_install_run_setup_wizard: "false"
 jenkins_diy_chunking: "false"  # https://issues.jenkins-ci.org/browse/JENKINS-23232
+jenkins_disable_cli: true
 
 jenkins_java_args:
   - "-Djava.awt.headless={{ jenkins_java_awt_headless }}"
@@ -43,6 +44,7 @@ jenkins_java_args:
   - "-Xmx{{ jenkins_java_xmx }}"
   - "-Djava.net.preferIPv4Stack={{ jenkins_java_net_prefer_ipv4_stack }}"
   - "-Djenkins.install.runSetupWizard={{ jenkins_install_run_setup_wizard }}"
+  - "-Djenkins.CLI.disabled=true"
   - "-Dhudson.diyChunking={{ jenkins_diy_chunking }}"
   - "-Dfile.encoding=UTF-8"
 

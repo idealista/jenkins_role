@@ -18,4 +18,5 @@
     status_code: 302
     headers:
       Jenkins-Crumb: "{{ crumb.content.split(':')[1] }}"
+      Cookie: "{{ crumb.cookies_string }}"
   when: item in ['quietDown', 'cancelQuietDown']
