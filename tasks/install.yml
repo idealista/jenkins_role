@@ -4,6 +4,11 @@
     pkg: "{{ jenkins_required_libs }}"
     state: present
 
+- name: Jenkins | Installing python dependencies
+  pip:
+    name: "{{ jenkins_python_required_libs }}"
+    state: present
+
 - name: Jenkins | Create group jenkins
   group:
     name: "{{ jenkins_group }}"

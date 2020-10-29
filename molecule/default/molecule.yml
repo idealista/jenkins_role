@@ -11,7 +11,7 @@ lint:
 platforms:
   - name: jenkinsmaster
     hostname: jenkinsmaster
-    image: ${DOCKER_IMAGE_BASE:-idealista/jdk:8u252-stretch-openjdk-headless}
+    image: idealista/jdk:11.0.8-buster-openjdk-headless
     privileged: True
     capabilities:
       - SYS_ADMIN
@@ -30,7 +30,7 @@ platforms:
 
   - name: jenkinsslave
     hostname: jenkinsslave
-    image: ${DOCKER_IMAGE_BASE:-idealista/jdk:8u252-stretch-openjdk-headless}
+    image: idealista/jdk:11.0.8-buster-openjdk-headless
     privileged: True
     capabilities:
       - SYS_ADMIN

@@ -6,9 +6,15 @@ jenkins_required_libs:
   - apt-transport-https
   - git
   - build-essential
+  - ttf-dejavu
+  - python-pip
   - python-httplib2
-  - python-jenkins
   - python-lxml
+
+jenkins_python_required_libs:
+  - python-jenkins
+
+
 
 # Package
 jenkins_repo_base_url: "https://pkg.jenkins.io/debian-stable"
