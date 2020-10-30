@@ -10,6 +10,7 @@ jenkins_required_libs:
   - python-pip
   - python-httplib2
   - python-lxml
+  - fontconfig
 
 jenkins_python_required_libs:
   - python-jenkins
