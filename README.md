@@ -23,7 +23,7 @@ These instructions will get you a copy of the role for your Ansible Playbook. On
 
 ### Prerequisities
 
-Ansible 2.8.1 version installed.
+Ansible 2.9.14 version installed.
 Inventory destination should be a Debian environment.
 
 For testing purposes, [Molecule](https://molecule.readthedocs.io/) with [Docker](https://www.docker.com/) as driver.
@@ -87,7 +87,7 @@ See molecule/molecule.yml to check possible testing platforms.
 
 ## Built With
 
-![Ansible](https://img.shields.io/badge/ansible-2.8.1-green.svg)
+![Ansible](https://img.shields.io/badge/ansible-2.9.14-green.svg)
 
 ## Versioning
 
