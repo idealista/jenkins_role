@@ -15,8 +15,6 @@ jenkins_required_libs:
 jenkins_python_required_libs:
   - python-jenkins
 
-
-
 # Package
 jenkins_repo_base_url: "https://pkg.jenkins.io/debian-stable"
 jenkins_repo_key_url: "{{ jenkins_repo_base_url }}/jenkins.io.key"
