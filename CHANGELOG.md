@@ -8,10 +8,12 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 - *[#48] Add session cookie for API Requests* @vicsufer
 - *[#53] Add support for adoptopenjdk* @sorobon
 - *[#53] Add support for debian buster* @vicsufer
-- *[#53] Add ansible-lint* @vicsufer
+- *[#54] Add ansible-lint* @vicsufer
 ### Changed
 - *[#48] Disable CLI with java argument* @vicsufer
-- *[#53] Bump ansible and molecule versions* @vicsufer
+- *[#54] Bump ansible and molecule versions* @vicsufer
+### Fixed
+- *[#54] Fix cryptography, psutils, jinja2 and  vulnerabilities
 
 
 ## [2.5.0](https://github.com/idealista/jenkins_role/tree/2.5.0)
