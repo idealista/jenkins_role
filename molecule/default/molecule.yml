@@ -6,8 +6,8 @@ driver:
   name: docker
 
 lint: |
-  yamllint
-  ansible-lint
+  yamllint .
+  ansible-lint .
 
 platforms:
   - name: jenkinsmaster
@@ -46,10 +46,10 @@ platforms:
 provisioner:
   name: ansible
   lint:
-    name: ansible-lint
+    name: ansible-lint .
 
 verifier:
   name: ansible
   enabled: true
   lint:
-    name: yamllint
+    name: yamllint .
