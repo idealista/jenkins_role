@@ -8,7 +8,6 @@
 - import_tasks: security.yml
   tags: jenkins_security
 
-
 - include_tasks: script/quiet.yml
   with_items: quietDown
   tags:
