@@ -6,6 +6,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 ### Added
 - *[#48] Support for jenkins v2.249.2.* @vicsufer
 - *[#48] Add session cookie for API Requests* @vicsufer
+- *[#53] Add support for adoptopenjdk* @sorobon
+- *[#53] Add support for debian buster* @vicsufer
 ### Changed
 - *[#48] Disable CLI with java argument-* @vicsufer
 
