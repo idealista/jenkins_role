@@ -36,6 +36,6 @@ switch("${implementation}") {
     jdks.push(new JDK(jdkName, "${home}"))
     break;
   default:
-    logger.log(Level.WARNING, implementation + " is not a supported jdk implementation")
+    logger.log(Level.WARNING, "${implementation}" + " is not a supported jdk implementation")
     break;
 }
