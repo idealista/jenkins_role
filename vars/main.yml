@@ -21,18 +21,22 @@ jenkins_plugins_update_url: https://updates.jenkins.io/update-center.json
 
 # Plugins
 jenkins_default_plugins:
-  - { name: "ssh-credentials", version: "1.13"}
-  - { name: "ssh-slaves", version: "1.26"}
-  - { name: "credentials", version: "2.1.16"}
-  - { name: "plain-credentials", version: "1.4"}
-  - { name: "structs", version: "1.14"}
-  - { name: "job-dsl", version: "1.69"}
-  - { name: "script-security", version: "1.44"}
-  - { name: "ldap", version: "1.20"}
-  - { name: "groovy", version: "2.0"}
-  - { name: "mailer", version: "1.21"}
-  - { name: "display-url-api", version: "2.2.0"}
-  - { name: "naginator", version: "1.17.2"}
+  - { name: "ssh-credentials", version: "1.18.1"}
+  - { name: "ssh-slaves", version: "1.31.2"}
+  - { name: "credentials", version: "2.3.13"}
+  - { name: "plain-credentials", version: "1.7"}
+  - { name: "structs", version: "1.20"}
+  - { name: "job-dsl", version: "1.77"}
+  - { name: "script-security", version: "1.75"}
+  - { name: "ldap", version: "1.26"}
+  - { name: "groovy", version: "2.3"}
+  - { name: "mailer", version: "1.32.1"}
+  - { name: "display-url-api", version: "2.3.3"}
+  - { name: "naginator", version: "1.18.1"}
+  - { name: "matrix-project", version: "1.18"}
+  - { name: "junit", version: "1.44"}
+  - { name: "scm-api", version: "2.6.4"}
+  - { name: "trilead-api", version: "1.0.12"}
 
 jenkins_ssh_credentials:
   - id: jenkins

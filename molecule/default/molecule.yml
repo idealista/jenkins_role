@@ -5,13 +5,13 @@ dependency:
 driver:
   name: docker
 
-lint:
-  name: yamllint
+lint:  |
+  yamllint .
 
 platforms:
   - name: jenkinsmaster
     hostname: jenkinsmaster
-    image: idealista/jdk:8u252-stretch-openjdk-headless
+    image: ${DOCKER_IMAGE_BASE:-idealista/jdk:8u252-stretch-openjdk-headless}
     privileged: True
     capabilities:
       - SYS_ADMIN
@@ -30,7 +30,7 @@ platforms:
 
   - name: jenkinsslave
     hostname: jenkinsslave
-    image: idealista/jdk:8u252-stretch-openjdk-headless
+    image: ${DOCKER_IMAGE_BASE:-idealista/jdk:8u252-stretch-openjdk-headless}
     privileged: True
     capabilities:
       - SYS_ADMIN
@@ -48,7 +48,4 @@ provisioner:
     name: ansible-lint
 
 verifier:
-  name: goss
-  enabled: true
-  lint:
-    name: yamllint
+  name: ansible
