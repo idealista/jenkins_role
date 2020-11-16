@@ -1,6 +1,6 @@
 ---
 ## General
-jenkins_version: "2.249.2"
+jenkins_version: "2.249.3"
 
 ## Service options
 # Owner
@@ -80,7 +80,7 @@ jenkins_ldap_enabled: false
 # Other plugins could be found in:
 # https://plugins.jenkins.io/
 jenkins_plugins:
-  - { name: "jdk-tool", version: "1.1"}  # This one is needed since Jenkins v2.112
+  - { name: "jdk-tool", version: "1.4"}  # This one is needed since Jenkins v2.112
 
 ## SETTINGS
 jenkins_settings_java: []

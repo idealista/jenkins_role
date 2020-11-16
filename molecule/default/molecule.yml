@@ -5,8 +5,8 @@ dependency:
 driver:
   name: docker
 
-lint:
-  name: yamllint
+lint:  |
+  yamllint .
 
 platforms:
   - name: jenkinsmaster
@@ -48,7 +48,4 @@ provisioner:
     name: ansible-lint
 
 verifier:
-  name: goss
-  enabled: true
-  lint:
-    name: yamllint
+  name: ansible
