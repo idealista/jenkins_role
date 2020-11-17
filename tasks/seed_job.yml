@@ -1,12 +1,40 @@
 ---
 
-- name: Jenkins | Create seed Job
-  jenkins_job:
-    config: "{{ lookup('template', '{{ jenkins_seed_job_config_file }}') }}"
-    name: "{{ jenkins_seed_job_name }}"
+- name: Jenkins | Generate crumb
+  uri:
+    url: "{{ jenkins_url }}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
-    url: "{{ jenkins_url }}"
+    force_basic_auth: yes
+    return_content: yes
+  register: crumb_seed
+
+- name: Jenkins | Check if seed job exists
+  uri:
+    url: "{{ jenkins_url }}/job/{{ jenkins_seed_job_name }}/api/json"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    force_basic_auth: yes
+    headers:
+      Jenkins-Crumb: "{{ crumb_seed.content.split(':')[1] }}"
+      Cookie: "{{ crumb_seed.cookies_string }}"
+  ignore_errors: true
+  register: seed_job_exists
+
+- name: Jenkins | Create seed job
+  uri:
+    url: "{{ jenkins_url }}/createItem?name={{ jenkins_seed_job_name }}"
+    method: POST
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    force_basic_auth: yes
+    body: "{{ lookup('template', '{{ jenkins_seed_job_config_file }}') }}"
+    status_code: 200
+    headers:
+      Jenkins-Crumb: "{{ crumb_seed.content.split(':')[1] }}"
+      Cookie: "{{ crumb_seed.cookies_string }}"
+      Content-Type: "text/xml"
+  when: seed_job_exists.status != 200
 
 - name: Jenkins | Ensure workspace exists
   file:
@@ -79,15 +107,6 @@
   with_items:
     - "{{ dsl_files_exist | difference(dsl_files) }}"
 
-- name: Jenkins | Generate crumb
-  uri:
-    url: "{{ jenkins_url }}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)"
-    user: "{{ jenkins_admin_username }}"
-    password: "{{ jenkins_admin_password }}"
-    force_basic_auth: yes
-    return_content: yes
-  register: crumb_seed
-
 - name: Jenkins | Build seed job
   uri:
     url: "{{ jenkins_url }}/job/{{ jenkins_seed_job_name }}/build"
@@ -98,3 +117,4 @@
     status_code: 201
     headers:
       Jenkins-Crumb: "{{ crumb_seed.content.split(':')[1] }}"
+      Cookie: "{{ crumb_seed.cookies_string }}"
