@@ -1,10 +1,6 @@
 ---
 ## General
-<<<<<<< HEAD
 jenkins_version: "2.249.3"
-=======
-jenkins_version: "2.138"
->>>>>>> support/2.x
 
 ## Service options
 # Owner
