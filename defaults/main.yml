@@ -2,6 +2,12 @@
 ## General
 jenkins_version: "2.138"
 
+## Jenkins package
+jenkins_repo_use_archive: true
+jenkins_repo_archive_url: "http://mirrors.jenkins-ci.org/debian"
+jenkins_repo_archive_package_prefix: jenkins  # hudson or jenkins
+jenkins_repo_archive_package: "{{ jenkins_repo_archive_package_prefix }}_{{ jenkins_version }}_all.deb"
+
 ## Service options
 # Owner
 jenkins_user: jenkins
