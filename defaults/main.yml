@@ -2,6 +2,12 @@
 ## General
 jenkins_version: "2.249.3"
 
+# Jenkins package
+jenkins_repo_use_archive: false
+jenkins_repo_archive_url: "https://get.jenkins.io/debian/"
+jenkins_repo_archive_package_prefix: jenkins  # hudson or jenkins
+jenkins_repo_archive_package: "{{ jenkins_repo_archive_package_prefix }}_{{ jenkins_version }}_all.deb"
+
 ## Service options
 # Owner
 jenkins_user: jenkins

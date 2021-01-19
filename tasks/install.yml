@@ -18,22 +18,33 @@
     shell: "/bin/bash"
     generate_ssh_key: yes
 
-- name: Jenkins | Add Jenkins apt repository key
-  apt_key:
-    url: "{{ jenkins_repo_key_url }}"
-    state: present
+- name: Install package from repository
+  when: not jenkins_repo_use_archive
+  block:
+    - name: Jenkins | Add Jenkins apt repository key
+      apt_key:
+        url: "{{ jenkins_repo_key_url }}"
+        state: present
 
-- name: Jenkins | Add Jenkins apt repository
-  apt_repository:
-    repo: "{{ jenkins_repo_url }}"
-    state: present
-    update_cache: yes
+    - name: Jenkins | Add Jenkins apt repository
+      apt_repository:
+        repo: "{{ jenkins_repo_url }}"
+        state: present
+        update_cache: yes
 
-- name: Jenkins | Ensure Jenkins is installed
+    - name: Jenkins | Ensure Jenkins is installed
+      apt:
+        pkg: jenkins={{ jenkins_version }}
+        update_cache: yes
+        state: present
+      register: jenkins_check
+      notify: restart jenkins
+
+- name: Jenkins | Install package from archive
   apt:
-    pkg: jenkins={{ jenkins_version }}
-    update_cache: yes
+    deb: "{{ jenkins_repo_archive_url }}/{{ jenkins_repo_archive_package }}"
     state: present
+  when: jenkins_repo_use_archive
   register: jenkins_check
   notify: restart jenkins
 
