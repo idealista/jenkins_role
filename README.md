@@ -1,6 +1,6 @@
 ![Logo](https://raw.githubusercontent.com/idealista/jenkins_role/master/logo.gif)
 
-[![Build Status](https://travis-ci.org/idealista/jenkins_role.png)](https://travis-ci.org/idealista/jenkins_role)
+[![Build Status](https://travis-ci.com/idealista/jenkins_role.png)](https://travis-ci.com/idealista/jenkins_role)
 
 # Jenkins Ansible role
 
@@ -23,7 +23,7 @@ These instructions will get you a copy of the role for your Ansible Playbook. On
 
 ### Prerequisities
 
-Ansible 2.8.1 version installed.
+Ansible 2.8.8 version installed.
 Inventory destination should be a Debian environment.
 
 For testing purposes, [Molecule](https://molecule.readthedocs.io/) with [Docker](https://www.docker.com/) as driver.
@@ -35,7 +35,7 @@ Create or add to your roles dependency file (e.g requirements.yml) from GitHub:
 ```
 - src: http://github.com/idealista/jenkins_role.git
   scm: git
-  version: 1.0.0
+  version: 2.8.0
   name: jenkins
 ```
 
@@ -43,7 +43,7 @@ or using [Ansible Galaxy](https://galaxy.ansible.com/idealista/jenkins_role/) as
 
 ```
 - src: idealista.jenkins_role
-  version: 1.0.0
+  version: 2.8.0
   name: jenkins
 ```
 
