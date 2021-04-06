@@ -63,6 +63,7 @@
       description: "{{ item.description }}"
       cred: "{{ item.cred | default('') }}"
       text: "{{ item.text | default('') }}"
+      file: "{{ item.file | default('') }}"
   with_items: "{{ jenkins_ssh_credentials }}"
 
 - name: Jenkins | Registering slaves in Jenkins master instance

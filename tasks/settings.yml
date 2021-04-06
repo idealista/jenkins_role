@@ -14,6 +14,7 @@
       description: jenkins admin login
       cred: ''
       text: ''
+      file: ''
 
 - name: Jenkins | Create credentials
   jenkins_script:
@@ -29,6 +30,7 @@
       description: "{{ item.description }}"
       cred: "{{ item.cred | default('') }}"
       text: "{{ item.text | default('') }}"
+      file: "{{ item.file | default('') }}"
   with_items: "{{ jenkins_credentials }}"
 
 - name: Jenkins | Configure Java versions
