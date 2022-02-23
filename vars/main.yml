@@ -7,8 +7,10 @@ jenkins_required_libs:
   - git
   - build-essential
   - python-httplib2
-  - python-jenkins
+  - python-jenkinsapi
   - python-lxml
+  - fontconfig
+
 
 # Package
 jenkins_repo_base_url: "https://pkg.jenkins.io/debian-stable"

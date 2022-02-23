@@ -13,10 +13,16 @@ install:
 
 env:
   jobs:
-    DOCKER_BASE_IMAGE=idealista/jdk:8u252-stretch-openjdk-headless
+    DOCKER_BASE_IMAGE=idealista/jdk:8u265-buster-adoptopenjdk-headless
 
 script:
   - pipenv run molecule test
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
+  email:
+    if: branch = main
+    on_success: change
+    on_failure: always
+    recipients:
+      - desarrollo.benders@idealista.com
