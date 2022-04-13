@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 
 ## [Unreleased](https://github.com/idealista/jenkins_role/tree/develop)
 
+### Added
+- [#65](https://github.com/idealista/jenkins_role/issues/65) *[FEATURE] Add configuration from plugin download timeout* @ommarmol
+
 ## [2.8.0](https://github.com/idealista/jenkins_role/tree/2.8.0)
 ## [Full Changelog](https://github.com/idealista/jenkins_role/compare/2.7.0...2.8.0)
 ### Added
