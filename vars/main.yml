@@ -10,8 +10,6 @@ jenkins_required_libs:
   - python-jenkinsapi
   - python-lxml
   - fontconfig
-  - apt-utils
-  - default-jre
 
 
 # Package
