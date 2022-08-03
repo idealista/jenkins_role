@@ -4,6 +4,8 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 
 ## [Unreleased](https://github.com/idealista/jenkins_role/tree/develop)
 
+## [2.9.0](https://github.com/idealista/jenkins_role/tree/2.9.0)
+## [Full Changelog](https://github.com/idealista/jenkins_role/compare/2.8.0...2.9.0)
 ### Added
 - [#65](https://github.com/idealista/jenkins_role/issues/65) *[FEATURE] Increase retry and delay parameters in plugin download configuration* @ommarmol
 
