@@ -8,6 +8,10 @@
     url_password: "{{ jenkins_admin_password }}"
     url: "{{ jenkins_url }}"
     with_dependencies: true
+  register: plugin_result
+  until: plugin_result is success
+  retries: 10
+  delay: 5
   with_items:
     - "{{ jenkins_default_plugins }}"
     - "{{ jenkins_plugins }}"
