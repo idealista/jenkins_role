@@ -8,6 +8,11 @@ jenkins_repo_archive_url: "https://get.jenkins.io/debian/"
 jenkins_repo_archive_package_prefix: jenkins  # hudson or jenkins
 jenkins_repo_archive_package: "{{ jenkins_repo_archive_package_prefix }}_{{ jenkins_version }}_all.deb"
 
+# Jenkins repository
+jenkins_repo_base_url: "https://pkg.jenkins.io/debian-stable"
+jenkins_repo_key_url: "{{ jenkins_repo_base_url }}/jenkins.io-2023.key"
+jenkins_repo_url: "deb {{ jenkins_repo_base_url }}/ binary/"
+
 ## Service options
 # Owner
 jenkins_user: jenkins
